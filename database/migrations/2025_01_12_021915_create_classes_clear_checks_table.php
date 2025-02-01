@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('users_id');
             $table->unsignedBigInteger('grade_id');
-            $table->boolean('clear_flg')->default(false);
+            $table->tinyInteger('clear_flg')->default(0);
             $table->timestamps();
         });
     }
