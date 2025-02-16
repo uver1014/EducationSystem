@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//ユーザー
+Route::prefix('user')->name('user.')->group(function () {
+    //お知らせ詳細画面
+    Route::get('/article/{id}', [ArticleController::class, 'showArticle'])->name('show.article');
+
+});
+
+
+//管理
+Route::prefix('admin')->name('admin.')->group(function () {
+
 });
