@@ -13,6 +13,6 @@ class ArticleController extends Controller
     {
         $article = Article::find($id);
 
-        return view('user.layouts.article', ['article' => $article]);
+        return view('user.article', ['article' => $article]);
     }
 }
