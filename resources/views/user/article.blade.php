@@ -4,7 +4,7 @@
 <div class="container mt-5 p-lg-5 bg-light">
     <div class="form-group row">
         <div class="mt-5">
-            <a href="{{ route('show.top') }}">戻る</a>
+            <a href="{{ route('user.show.top') }}">戻る</a>
         </div>
     </div>
 

@@ -15,6 +15,9 @@ use App\Http\Controllers\User\ProfileController;
 |
 */
 
+Auth::routes();
+
+
 //ユーザー
 Route::prefix('user')->name('user.')->group(function () {
     //お知らせ詳細画面
@@ -23,8 +26,14 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/profile', [ProfileController::class, 'showProfileForm'])->name('show.profile');
     //プロフィール編集
     Route::put('/profile', [ProfileController::class, 'profileUpdate'])->name('profile.edit');
+    //ﾊﾟｽﾜｰﾄﾞ変更表示
+    Route::get('/password', [ProfileController::class, 'showPasswordFrom'])->name('show.password.edit');
+    //ﾊﾟｽﾜｰﾄﾞ変更
+    Route::put('/password', [ProfileController::class, 'passwordUpdate'])->name('password.edit');
 });
 
 
 //管理
 Route::prefix('admin')->name('admin.')->group(function () {});
+
+

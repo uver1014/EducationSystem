@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name_kana');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('profile_image');
+            $table->string('profile_image')->nullable();
             $table->unsignedBigInteger('grade_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
