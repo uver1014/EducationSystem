@@ -15,6 +15,13 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'users';    
+    
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -48,32 +55,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getUser(){
-
-        return  DB::table('users')
-        ->join('grades', 'users.grade_id', '=', 'grades.id')
-        ->where('users.id', Auth::id())
-        ->select('users.*', 'grades.name')
-        ->first();
-    }
-
-    public function exeUpdate($data, $image_path){
-
-        return DB::table('users')
-            ->where('id', Auth::id())
-            ->update([
-                'name' => $data->name,
-                'name_kana' => $data->name_kana,
-                'email' => $data->email,
-                'profile_image' => $image_path,
-            ]);
-
-    }
-
     public function updatePassword($currentPassword, $newPassword)
     {
-        // クエリビルダを使用して現在のパスワードを確認
-        $user = DB::table('users')->where('id', $this->id)->first();
+        
+        $user = User::find($this->id);
 
         // 現在のパスワードが一致するか確認
         if (!Hash::check($currentPassword, $user->password)) {
@@ -84,20 +69,15 @@ class User extends Authenticatable
         $newPasswordHashed = Hash::make($newPassword);
 
         try {
-            // トランザクションを開始
+    
             DB::beginTransaction();
 
-            // 新しいパスワードを更新
-            DB::table('users')
-                ->where('id', $this->id)
-                ->update(['password' => $newPasswordHashed]);
+            $user->update(['password' => $newPasswordHashed]);
 
-            // コミット
             DB::commit();
             return true;
 
         } catch (\Exception $e) {
-            // エラーが発生した場合はロールバック
             DB::rollBack();
             return false;
         }

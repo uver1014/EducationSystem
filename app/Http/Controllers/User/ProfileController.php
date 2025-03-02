@@ -15,8 +15,9 @@ class ProfileController extends Controller
 {
     public function showProfileForm()
     {
-        $model = new User();
-        $user = $model->getUser();
+        $user = User::with('grade')
+            ->where('id', Auth::id())
+            ->first();
 
         if (!$user) {
             return redirect()->route('user.show.login')->with('error', 'ログインしてください');
@@ -28,13 +29,15 @@ class ProfileController extends Controller
     public function profileUpdate(UserRequest $request)
     {
 
-        $model = new user();
-        $auth = $model->getUser();
+        $user = User::with('grade')
+            ->where('id', Auth::id())
+            ->first();
+
         $image_path = null; // 初期化
 
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
-            $path = $auth->profile_image;
+            $path = $user->profile_image;
 
             if (isset($image)) {
                 //古い画像を削除
@@ -47,41 +50,49 @@ class ProfileController extends Controller
         }
         DB::beginTransaction();
         try {
-            $user = $model->exeUpdate($request, $image_path);
+             $user = User::find(Auth::id());
+             
+             $user->update([
+                'name' => $request->name,
+                'name_kana' => $request->name_kana,
+                'email' => $request->email,
+                'profile_image' => $image_path
+            ]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('message', '更新に失敗しました。');
         }
-        
+
 
         return redirect(route('user.show.profile'))->with('message', '更新しました');
     }
-
+    
     public function showPasswordFrom()
     {
         return view('user.password_edit');
     }
 
-    public function passwordUpdate(Request $request){
-       
-            // バリデーション
-            $request->validate([
-                'current_password' => 'required',
-                'new_password' => 'required|min:8|confirmed',
-            ]);
-    
-            // ログインしているユーザーを取得
-            $user = Auth::user();
-    
-            // モデルメソッドを使ってパスワード更新処理
-            $isUpdated = $user->updatePassword($request->current_password, $request->new_password);
-    
-            // 結果に応じてリダイレクト
-            if ($isUpdated) {
-                return redirect()->route('user.show.profile')->with('message', 'パスワードが更新されました');
-            } else {
-                return back()->with(['message', 'current_password' => '現在のパスワードが間違っています']);
-            }
+    public function passwordUpdate(Request $request)
+    {
+
+        // バリデーション
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        // ログインしているユーザーを取得
+        $user = Auth::user();
+
+        // モデルメソッドを使ってパスワード更新処理
+        $isUpdated = $user->updatePassword($request->current_password, $request->new_password);
+
+        // 結果に応じてリダイレクト
+        if ($isUpdated) {
+            return redirect()->route('user.show.profile')->with('message', 'パスワードが更新されました');
+        } else {
+            return back()->with(['message', 'current_password' => '現在のパスワードが間違っています']);
         }
+    }
 }

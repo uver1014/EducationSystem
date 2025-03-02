@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\ArticleController as UserArticleController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\User\ProgressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/password', [ProfileController::class, 'showPasswordFrom'])->name('show.password.edit');
     //ﾊﾟｽﾜｰﾄﾞ変更
     Route::put('/password', [ProfileController::class, 'passwordUpdate'])->name('password.edit');
+    //授業進捗画面
+    Route::get('/progress', [ProgressController::class, 'showProgress'])->name('show.progress');
 });
 
 
