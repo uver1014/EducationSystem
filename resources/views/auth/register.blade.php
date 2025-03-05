@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>新規会員登録</h1>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('user.register') }}">
         @csrf
         <input type="text" name="name" placeholder="ユーザー名" required>
         <input type="text" name="name_kana" placeholder="カナ" required>

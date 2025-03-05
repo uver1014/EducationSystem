@@ -23,7 +23,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('user.top'); // ログイン成功時にトップページへリダイレクト
+            return redirect()->route('user.show.top'); // ログイン成功時にトップページへリダイレクト
         }
 
         return back()->withErrors([

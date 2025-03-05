@@ -10,4 +10,10 @@ class Curriculum extends Model
     use HasFactory;
 
     protected $table = 'curriculums';
+
+    // gradeとのリレーションを定義
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class);
+    }
 }

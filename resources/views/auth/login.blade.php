@@ -13,12 +13,12 @@
 </head>
 <body>
     <h1>ログイン</h1>
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('user.login') }}">
         @csrf
         <input type="email" name="email" placeholder="メールアドレス" required>
         <input type="password" name="password" placeholder="パスワード" required>
         <button type="submit">ログイン</button>
     </form>
-    <p><a href="{{ route('register') }}">新規会員登録はこちら</a></p>
+    <p><a href="{{ route('user.show.register') }}">新規会員登録はこちら</a></p>
 </body>
 </html>
