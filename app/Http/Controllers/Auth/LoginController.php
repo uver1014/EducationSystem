@@ -20,21 +20,29 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8',
+        ], [
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => '有効なメールアドレスを入力してください。',
+            'password.required' => 'パスワードを入力してください。',
+            'password.min' => 'パスワードは8文字以上で入力してください。',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('user.show.top'); // ログイン成功時にトップページへリダイレクト
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors([
+                'login' => 'メールアドレスまたはパスワードが正しくありません。',
+            ])->withInput($request->only('email')); // メールアドレスのみ old() で保持
         }
 
-        return back()->withErrors([
-            'email' => 'ログイン情報が正しくありません。',
-        ]);
+        return redirect()->route('user.show.top'); // ログイン成功時にトップページへリダイレクト
     }
 
     // ログアウト処理
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('user.show.login');
     }
 }

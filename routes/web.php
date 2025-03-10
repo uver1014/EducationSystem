@@ -15,18 +15,21 @@ use App\Http\Controllers\User\DeliveryController;
 // 未ログイン時のページ
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
+// **ログインページを定義（新規追加）**
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
 // 認証関連（ログイン & 新規登録）
 Route::prefix('user')->name('user.')->group(function () {
     // ログイン
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('show.login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login'); // ← nameを追加
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // 新規登録
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('show.register');
-    Route::post('/register', [RegisterController::class, 'register'])->name('register'); // ← nameを追加
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
     // ログイン後のページ
     Route::middleware(['auth'])->group(function () {
@@ -51,4 +54,3 @@ Route::prefix('user')->name('user.')->group(function () {
         })->name('show.profile');
     });
 });
-

@@ -1,27 +1,47 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新規会員登録</title>
-    <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        form { display: inline-block; text-align: left; }
-        input { display: block; margin-bottom: 10px; width: 250px; padding: 5px; }
-        button { background-color: #f66; color: white; padding: 10px 20px; border: none; }
-    </style>
-</head>
-<body>
+@extends('layouts.auth')
+
+@section('title', '新規会員登録')
+
+@section('content')
     <h1>新規会員登録</h1>
-    <form method="POST" action="{{ route('user.register') }}">
+
+    @if (session('success'))
+        <p class="success-message">{{ session('success') }}</p>
+    @endif
+
+    <form method="POST" action="{{ route('user.register') }}" novalidate>
         @csrf
-        <input type="text" name="name" placeholder="ユーザー名" required>
-        <input type="text" name="name_kana" placeholder="カナ" required>
-        <input type="email" name="email" placeholder="メールアドレス" required>
-        <input type="password" name="password" placeholder="パスワード" required>
-        <input type="password" name="password_confirmation" placeholder="パスワード確認" required>
+        <div class="input-group">
+            <label for="name">ユーザー名</label>
+            <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+            @error('name')    <p class="error-message">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="input-group">
+            <label for="name_kana">カナ</label>
+            <input type="text" id="name_kana" name="name_kana" value="{{ old('name_kana') }}" required>
+            @error('name_kana')      <p class="error-message">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="input-group">
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+            @error('email')   <p class="error-message">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="input-group">
+            <label for="password">パスワード（8文字以上）</label>
+            <input type="password" id="password" name="password" required>
+            @error('password')    <p class="error-message">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="input-group">
+            <label for="password_confirmation">パスワード確認</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" required>
+        </div>
+
         <button type="submit">登録</button>
     </form>
-    <p><a href="{{ route('login') }}">ログインはこちら</a></p>
-</body>
-</html>
+
+    <p><a href="{{ route('user.show.login') }}">ログインはこちら</a></p>
+@endsection
