@@ -11,9 +11,36 @@ class Curriculum extends Model
 
     protected $table = 'curriculums';
 
-    // gradeとのリレーションを定義
+    protected $fillable = [
+        'title',
+        'thumbnail',
+        'description',
+        'video_url',
+        'alway_delivery_flg',
+        'grade_id'
+    ];
+
+    /**
+     * gradeとのリレーションを定義
+     */
     public function grade()
     {
         return $this->belongsTo(Grade::class);
+    }
+
+    /**
+     * 指定したIDの授業情報を取得
+     */
+    public static function getLessonWithGrade($id)
+    {
+        return self::with('grade')->findOrFail($id);
+    }
+
+    /**
+     * 配信可能かどうかを判定（常時公開フラグも考慮）
+     */
+    public function isAvailable()
+    {
+        return $this->alway_delivery_flg || DeliveryTime::isLessonAvailable($this->id);
     }
 }

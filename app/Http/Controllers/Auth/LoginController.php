@@ -17,7 +17,7 @@ class LoginController extends Controller
     // ログイン処理
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8',
         ], [
@@ -27,7 +27,8 @@ class LoginController extends Controller
             'password.min' => 'パスワードは8文字以上で入力してください。',
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        // **修正: Auth::attempt() を使用**
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return back()->withErrors([
                 'login' => 'メールアドレスまたはパスワードが正しくありません。',
             ])->withInput($request->only('email')); // メールアドレスのみ old() で保持

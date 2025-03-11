@@ -13,10 +13,7 @@ class TopController extends Controller
     public function index()
     {
         $banners = Banner::select('image')->get();
-        $articles = Article::select('title', 'posted_date', 'article_contents') // ← 追加
-            ->orderBy('posted_date', 'desc')
-            ->limit(5)
-            ->get();
+        $articles = Article::getLatestArticles();
 
         return view('user.top', compact('banners', 'articles'));
     }

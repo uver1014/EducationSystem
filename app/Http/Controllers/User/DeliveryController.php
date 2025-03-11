@@ -3,25 +3,21 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Curriculum;
 use App\Models\CurriculumProgress;
 use App\Models\DeliveryTime;
-use App\Models\Grade;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {
-    public function show($id) {
+    public function show($id)
+    {
         try {
-            // 授業情報の取得
-            $lesson = Curriculum::with('grade')->findOrFail($id);
+            // 授業情報の取得（モデルメソッドを使用）
+            $lesson = Curriculum::getLessonWithGrade($id);
 
-            // 配信可能かチェック
-            $isAvailable = DeliveryTime::where('curriculums_id', $id)
-                ->where('delivery_from', '<=', now())
-                ->where('delivery_to', '>=', now())
-                ->exists();
+            // 配信可能かチェック（モデルメソッドを使用）
+            $isAvailable = $lesson->isAvailable();
 
             return view('delivery.show', compact('lesson', 'isAvailable'));
 
@@ -30,16 +26,14 @@ class DeliveryController extends Controller
         }
     }
 
-    public function complete($id) {
+    public function complete($id)
+    {
         try {
-            // 授業情報の取得
-            $lesson = Curriculum::findOrFail($id);
+            // 授業情報が存在するかチェック（エラーハンドリング）
+            Curriculum::getLessonWithGrade($id);
 
-            // 受講完了の処理
-            CurriculumProgress::updateOrCreate(
-                ['users_id' => Auth::id(), 'curriculums_id' => $id],
-                ['completed_at' => now(), 'clear_flg' => 1] 
-            );
+            // 受講完了の処理（モデルメソッドを使用）
+            CurriculumProgress::completeLesson($id);
 
             return response()->json(['message' => '受講完了']);
         } catch (\Exception $e) {

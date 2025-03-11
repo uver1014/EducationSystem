@@ -4,19 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class RegisterController extends Controller
 {
-    // 新規会員登録画面を表示
     public function showRegistrationForm()
     {
         return view('auth.register');
     }
 
-    // ユーザー登録処理
     public function register(Request $request)
     {
         $request->validate([
@@ -30,12 +27,8 @@ class RegisterController extends Controller
             'password.confirmed' => 'パスワードが一致しません。',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'name_kana' => $request->name_kana,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        // 🔹 モデルの `createUser()` を使用してユーザー作成
+        $user = User::createUser($request->all());
 
         // 登録後に自動ログイン
         Auth::login($user);
