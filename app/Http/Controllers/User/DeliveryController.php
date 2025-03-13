@@ -7,6 +7,7 @@ use App\Models\Curriculum;
 use App\Models\CurriculumProgress;
 use App\Models\DeliveryTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DeliveryController extends Controller
 {
@@ -19,7 +20,13 @@ class DeliveryController extends Controller
             // 配信可能かチェック（モデルメソッドを使用）
             $isAvailable = $lesson->isAvailable();
 
-            return view('delivery.show', compact('lesson', 'isAvailable'));
+            // 受講済みかどうかのチェック
+            $isCompleted = CurriculumProgress::where('users_id', Auth::id())
+                ->where('curriculums_id', $id)
+                ->where('clear_flg', 1)
+                ->exists();
+
+            return view('delivery.show', compact('lesson', 'isAvailable', 'isCompleted'));
 
         } catch (\Exception $e) {
             return abort(404, '授業情報が見つかりません');

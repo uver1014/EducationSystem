@@ -11,8 +11,10 @@ class CurriculumProgress extends Model
     use HasFactory;
 
     protected $table = 'curriculum_progress';
-    protected $fillable = ['curriculums_id', 'users_id', 'clear_flg', 'completed_at'];
-    public $timestamps = false;
+
+    protected $fillable = ['curriculums_id', 'users_id', 'clear_flg', 'created_at', 'updated_at'];
+
+    public $timestamps = true; // created_at, updated_at を自動管理
 
     /**
      * 受講完了処理
@@ -21,7 +23,11 @@ class CurriculumProgress extends Model
     {
         return self::updateOrCreate(
             ['users_id' => Auth::id(), 'curriculums_id' => $id],
-            ['completed_at' => now(), 'clear_flg' => 1]
+            [
+                'clear_flg' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         );
     }
 }

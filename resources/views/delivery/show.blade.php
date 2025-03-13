@@ -95,10 +95,14 @@
 
         <!-- 動画エリア -->
         <div class="video-container">
-            <video controls>
-                <source src="{{ $lesson->video_url }}" type="video/mp4">
-                お使いのブラウザは動画をサポートしていません。
-            </video>
+            @if ($isAvailable)
+                <video controls>
+                    <source src="{{ $lesson->video_url }}" type="video/mp4">
+                    お使いのブラウザは動画をサポートしていません。
+                </video>
+            @else
+                <p>この動画は現在閲覧できません。</p>
+            @endif
         </div>
 
         <!-- 授業情報 -->
@@ -110,11 +114,45 @@
 
         <!-- 受講ボタン -->
         <div class="button-container">
-            @if ($isAvailable)
+            @if ($isCompleted)
+                <button class="lesson-btn disabled" disabled>受講済</button>
+            @elseif ($isAvailable)
                 <button id="completeButton" class="lesson-btn">受講しました</button>
             @else
                 <button class="lesson-btn disabled" disabled>配信期間外</button>
             @endif
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const completeButton = document.getElementById('completeButton');
+
+            if (completeButton) {
+                completeButton.addEventListener('click', function () {
+                    console.log("受講ボタンがクリックされました");
+
+                    fetch("{{ route('user.complete.delivery', $lesson->id) }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({})
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("サーバー応答:", data);
+                            alert(data.message);
+
+                            // ボタンを「受講済」に変更
+                            completeButton.textContent = "受講済";
+                            completeButton.disabled = true;
+                            completeButton.classList.add("disabled");
+                        })
+                        .catch(error => console.error("エラー:", error));
+                });
+            }
+        });
+    </script>
 @endsection
