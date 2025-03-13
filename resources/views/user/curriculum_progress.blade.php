@@ -16,29 +16,30 @@
         </div>
     </div>
 
-        <div class="row">
-            
-      
-                @foreach($grades as $grade)
-                <div class="col-md-4 mb-3">
-                <div class="list-group">
-                    <label for="gradesName">{{ $grade->name }}</label>
-                    @foreach($curriculums as $curriculum)
-                    <div class="curriculum-block">
-                        @if(isset($curriculum_progress[$curriculum->id]) && $curriculum_progress[$curriculum->id]->clear_flg == 1)
-                        <a class="curriculum_title" href="{{ route('user.show.delivery') }}">{{ $curriculum->title }}</a>
-                        <div>受講済み</div>
-                        @else
-                        <span class="disabled">{{ $curriculum->title }}</span>
-                        @endif
-                    </div>
-                    @endforeach
-                    </div>
-                    </div>
-                @endforeach
-            
+    <div class="row">
 
+        @foreach($grades as $grade)
+        <div class="col-md-4 mb-3">
+            <div class="list-group">
+                <label for="gradesName">{{ $grade->name }}</label>
+                @if(isset($curriculums[$grade->id]) && $curriculums[$grade->id]->isNotEmpty())
+                
+                @foreach($curriculums[$grade->id] as $curriculum)
+                <div class="curriculum-block">
+                    @if($curriculum->grade_id <= $user->grade->id || $curriculum->is_completed)
+                     <div class="pass">受講済み</div>
+                      <a class="curriculum_title" href="{{ route('user.show.delivery') }}">{{ $curriculum->title }}</a>
+                    @else
+                     <span class="disabled">{{ $curriculum->title }}</span>
+                    @endif
+                </div>
+                @endforeach
+                @endif
+            </div>
         </div>
+        @endforeach
+
+    </div>
 
 </div>
 @endsection

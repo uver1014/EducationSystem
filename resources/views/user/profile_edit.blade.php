@@ -39,16 +39,24 @@
                 <label for="name">ユーザーネーム</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}">
             </div>
-
+            @if($errors->has('name'))
+            <div class="text-danger">
+                {{ $errors->first('name')}}
+            </div>
+            @endif
         </div>
 
 
         <div class="form-row">
             <div class="col-md-3 mb-3">
-                <label for="kana">カナ</label>
-                <input type="text" class="form-control" id="kana" name="kana" value="{{ Auth::user()->name_kana }}">
+                <label for="name_kana">カナ</label>
+                <input type="text" class="form-control" id="name_kana" name="name_kana" value="{{ Auth::user()->name_kana }}">
             </div>
-
+            @if($errors->has('name_kana'))
+            <div class="text-danger">
+                {{ $errors->first('name_kana')}}
+            </div>
+            @endif
         </div>
 
         <div class="form-row">
@@ -56,13 +64,17 @@
                 <label for="email">メールアドレス</label>
                 <input type="text" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}">
             </div>
-
+            @if($errors->has('email'))
+            <div class="text-danger">
+                {{ $errors->first('email')}}
+            </div>
+            @endif
         </div>
 
 
         <div class="form-group mb-3">
             <label for="comment">パスワード変更</label>
-            <a href="{{ route('show.password.edit') }}" button type="submit">ﾊﾟｽﾜｰﾄﾞ変更</a>
+            <a href="{{ route('user.show.password.edit') }}" button type="submit">ﾊﾟｽﾜｰﾄﾞ変更</a>
 
         </div>
 

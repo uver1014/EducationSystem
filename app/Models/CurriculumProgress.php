@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Curriculum;
 
 class CurriculumProgress extends Model
 {
@@ -20,11 +21,13 @@ class CurriculumProgress extends Model
 
     public function curriculum()
     {
-        return $this->belongsTo(Curriculum::class);
+        return $this->belongsTo(Curriculum::class, 'curriculums_id');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    
 }

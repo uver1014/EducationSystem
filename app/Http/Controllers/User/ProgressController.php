@@ -16,15 +16,9 @@ class ProgressController extends Controller
         $user = User::find(1);
 
         $grades = Grade::all();
-
-        if (!$id){
-            $curriculums =Curriculum::all();
-        } else{
-            $curriculums = Curriculum::where('grade_id' , $id)->get();
-        }
-
-        $curriculum_progress = CurriculumProgress::where('users_id', $user->id)->get()->keyBy('curriculum_id');
+  
+        $curriculums = Curriculum::getInfo($user);
     
-        return view('user.curriculum_progress', ['grades'=> $grades, 'curriculums' => $curriculums,'curriculum_progress' => $curriculum_progress,],compact('user'));
+        return view('user.curriculum_progress', ['user' => $user, 'grades'=> $grades, 'curriculums' => $curriculums]);
     }
 }

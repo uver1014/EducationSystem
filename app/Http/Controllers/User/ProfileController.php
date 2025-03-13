@@ -26,12 +26,8 @@ class ProfileController extends Controller
         return view('user.profile_edit', ['user' => $user]);
     }
 
-    public function profileUpdate(UserRequest $request)
+    public function profileUpdate(UserRequest $request, User $user)
     {
-
-        $user = User::with('grade')
-            ->where('id', Auth::id())
-            ->first();
 
         $image_path = null; // 初期化
 
@@ -63,7 +59,6 @@ class ProfileController extends Controller
             DB::rollBack();
             return back()->with('message', '更新に失敗しました。');
         }
-
 
         return redirect(route('user.show.profile'))->with('message', '更新しました');
     }
