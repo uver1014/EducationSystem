@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('delivery_times', function (Blueprint $table) {
             $table->increments('id')->length(10)->nullable(false);
-            $table->integer('curriculums_id',false,true)->length(10)->nullable(false);
+            $table->unsignedBigInteger('curriculums_id',false,true)->length(10)->nullable(false);
             $table->dateTime('delivery_from',0)->length(10)->nullable(false);
             $table->dateTime('delivery_to',0)->nullable(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->nullable(false);

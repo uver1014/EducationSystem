@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->mediumText('video_url')->nullable();
             $table->tinyInteger('alway_delivery_flg',false,true)->length(4)->nullable(false);
-            $table->integer('grade_id',false,true)->length(10)->nullable(false);
+            $table->unsignedBigInteger('grade_id',false,true)->length(10)->nullable(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->nullable(false);
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->nullable(false); 
         });
