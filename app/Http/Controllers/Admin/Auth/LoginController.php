@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/dashbord'; //ログイン後にリダイレクト
+    protected $redirectTo = '/admin/top'; //ログイン後にリダイレクト
 
     /**
      * Create a new controller instance.

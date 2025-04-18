@@ -19,8 +19,13 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if($guard === 'user' && auth()->guard('user')->check()) {
-            return redirect('/user/dashbord'); //すでにログイン済ならダッシュボードへリダイレクト
+        if(Auth::guard($guard)->check()) {
+            // ログインユーザーのリダイレクト先
+            return match ($guard) {
+                'admin' => redirect('/admin/top'),
+                'user' => redirect('/user/top'),
+                default => redirect('/'),
+            };
         }
 
         return $next($request);

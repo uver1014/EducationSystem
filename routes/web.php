@@ -5,6 +5,7 @@ use App\Http\Controllers\User\Auth\LoginController as UserLoginController;
 use App\Http\Controllers\User\Auth\RegisterController as UserRegisterController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
+use App\Http\Controllers\User\TopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,18 +26,25 @@ Route::get('/', function () {
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//ユーザー認証ルート
+//ユーザールート
 Route::prefix('user')->namespace('user')->name('user.')->group(function () {
     Route::get('/login',[UserLoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login',[UserLoginController::class,'login']);
+    Route::post('/logout',[UserLoginController::class,'logout'])->name('logout');
     Route::get('/register',[UserRegisterController::class,'showRegisterForm'])->name('register');
-    Route::post('/register',[UserRegisterController::class,'register']); 
+    Route::post('/register',[UserRegisterController::class,'register']);
+    Route::get('/top',[TopController::class,'index'])->name('top'); //トップページルート
 });
 
-//管理者認証ルート
+//管理者ルート
 Route::prefix('admin')->namespace('admin')->name('admin.')->group(function () {
     Route::get('/login',[AdminLoginController::class,'showLoginForm'])->name('login');
     Route::post('/login',[AdminLoginController::class,'login']);
     Route::get('/register',[AdminRegisterController::class,'showRegisterForm'])->name('register');
     Route::post('/register',[AdminRegisterController::class,'register']);
+    Route::middleware('auth:admin')->group(function () {
+      Route::get('/top',function (){
+        return view('admin.top');
+      })->name('top');  
+    });
 });

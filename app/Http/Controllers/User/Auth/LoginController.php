@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/user/dashbord';   //ログイン後にリダイレクトするURL
+    protected $redirectTo = '/user/top';   //ログイン後にリダイレクトするURL
 
     /**
      * Create a new controller instance.
@@ -50,10 +50,10 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $this->guard()->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $this->guard()->logout(); //Guardからログアウト
+        $request->session()->invalidate(); //セッションを無効化
+        $request->session()->regenerateToken(); //新しいトークンを作成
 
-        return redirect('/user/login');
+        return redirect('/user/login'); //ログアウト後のリダイレクト先
     }
 }

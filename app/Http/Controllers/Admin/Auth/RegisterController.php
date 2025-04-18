@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/dashbord'; //登録後のリダイレクト先
+    protected $redirectTo = '/admin/top'; //登録後のリダイレクト先
 
     /**
      * Create a new controller instance.
@@ -68,7 +68,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Admin::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),// パスワードをハッシュ化
