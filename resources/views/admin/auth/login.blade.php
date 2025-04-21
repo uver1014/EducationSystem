@@ -1,13 +1,26 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>管理者ログインページ</title>
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    </head>
+    <body>
+        <header style="display: flex; justify-content: space-between; align-items:center; padding:10px;">
+            <nav style="margin-left: auto">
+                <a href="{{ route('admin.register') }}" style="color: black; text-decoration:none; font-size:1rem">新規会員登録はこちら</a>
+            </nav>
+        </header>    
 
-@section('content')
-<div class="container">
+
+
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('管理画面ログイン') }}</div>
+            
+                <h1 style="text-align: center">管理画面ログイン</h1>
 
-                <div class="card-body">
+                <div>
                     <form method="POST" action="{{ route('admin.login') }}">
                         @csrf
 
@@ -53,21 +66,21 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-secondary">
                                     {{ __('ログイン') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
+                                {{-- @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
+            
         </div>
     </div>
-</div>
-@endsection
+    </body>
+</html>    

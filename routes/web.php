@@ -40,6 +40,7 @@ Route::prefix('user')->namespace('user')->name('user.')->group(function () {
 Route::prefix('admin')->namespace('admin')->name('admin.')->group(function () {
     Route::get('/login',[AdminLoginController::class,'showLoginForm'])->name('login');
     Route::post('/login',[AdminLoginController::class,'login']);
+    Route::post('/logout',[AdminLoginController::class,'logout'])->name('logout');
     Route::get('/register',[AdminRegisterController::class,'showRegisterForm'])->name('register');
     Route::post('/register',[AdminRegisterController::class,'register']);
     Route::middleware('auth:admin')->group(function () {

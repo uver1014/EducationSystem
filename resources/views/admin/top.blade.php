@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>管理者トップページ</h1>
-        <p>ようこそ！</p>
+        <h1>ユーザーネーム：</h1>
+        <h1>メールアドレス：</h1>
     </div>
+@endsection    
