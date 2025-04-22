@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container">
-        <h1>ユーザーネーム：</h1>
-        <h1>メールアドレス：</h1>
+        <div class="card">
+        <h1>ユーザーネーム： {{ Auth::user()->name }}</h1>
+        <h1>メールアドレス：{{ Auth::user()->email }}</h1>
+        </div>
     </div>
 @endsection    

@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>管理者ページ</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -18,7 +18,21 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <header style="display: flex; justify-content:space-between; align-items:center; padding:10px 20px; background-color:#4aecf2">
+            <div class="menu-buttons">
+                <button class="btn btn-secondary">授業管理</button>
+                <button class="btn btn-secondary">お知らせ管理</button>
+                <button class="btn btn-secondary">バナー管理</button>
+            </div>
+            <nav>
+                <form method="POST" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button type="submit" class="btn" style="background-color: #4aecf2; color:white; border:none;">ログアウト</button>
+                </form>
+                {{-- <a href="#" style="text-decoration: none; color:white">ログアウト</a>  --}}
+            </nav>
+        </header>
+        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -70,7 +84,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
 
         <main class="py-4">
             @yield('content')

@@ -9,7 +9,6 @@ class TopController extends Controller
 {
     public function index()
     {
-        $admin = Auth::guard('admin')->user();
-        return view('admin.top',compact('admin'));
+        return view('admin.top');
     }
 }
