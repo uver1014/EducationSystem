@@ -21,19 +21,17 @@
                 <h1 style="text-align: center">管理画面ログイン</h1>
 
                 <div>
-                    <form method="POST" action="{{ route('admin.login') }}">
+                    <form method="POST" action="{{ route('admin.login') }}"novalidate>
                         @csrf
 
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('メールアドレス') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -42,12 +40,10 @@
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('パスワード') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="form-control" name="password" required>
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>

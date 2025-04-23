@@ -7,6 +7,7 @@ use App\Models\Admin;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -54,10 +55,27 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'kana' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => 'required|string|max:255',
+            'kana' => 'required|regex:/^[ァ-ケー]+$/u',
+            'email' => 'required|email',
+            'password' => 'required|min:8|',
+            'password_confirmation' => 'required|min:8|same:password', 
+        ],[
+                        //カスタムメッセージ
+            'name.required' => 'ユーザーネームを入力してください。',
+            
+            'kana.required' => 'カナを入力してください。',
+            'kana.required' => 'カタカナで入力してください。',
+
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' =>'＠を含むメール形式で入力してください。',
+
+            'password.required' => 'パスワードを入力してください。',
+            'password.min' => '８文字以上で入力してください。',
+
+            'password_confirmation.required' => 'パスワードを入力してください。',
+            'password_confirmation.min' => '８文字以上で入力してください。',
+            'password_confirmation.same' => '上記パスワードと一致していません。',
         ]);
     }
 
@@ -76,6 +94,30 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),// パスワードをハッシュ化
         ]);
     }
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'kana' => 'required|regex:/^[ァ-ケー]+$/u',
+    //         'email' => 'required|email',
+    //         'password' => 'required|min:8|confirmed', 
+    //     ],[
+    //         //カスタムメッセージ
+    //         'name.required' => 'ユーザーネームを入力してください。',
+            
+    //         'kana.required' => 'カナを入力してください。',
+    //         'kana.required' => 'カタカナで入力してください。',
+
+    //         'email.required' => 'メールアドレスを入力してください。',
+    //         'email.email' =>'＠を含むメール形式で入力してください。',
+
+    //         'password.required' => 'パスワードを入力してください。',
+    //         'password.min' => '８文字以上で入力してください。',
+    //         'password.confirmed' => '上記パスワードと一致していません。',
+    //     ]);
+        
+    // }
 
     public function guard()
     {
