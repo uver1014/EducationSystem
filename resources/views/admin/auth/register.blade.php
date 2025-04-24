@@ -9,7 +9,7 @@
     <body>
         <header style="display: flex; justify-content: space-between; align-items:center; padding:10px;">
             <nav style="margin-left: auto">
-                <a href="{{ route('admin.login') }}" style="color: black; text-decoration:none; font-size:1rem">ログインはこちら</a>
+                <a href="{{ route('admin.show.login') }}" style="color: black; text-decoration:none; font-size:1rem">ログインはこちら</a>
             </nav>
         </header>    
 
@@ -19,7 +19,7 @@
                 <h1 style="text-align: center">新規管理ユーザー登録</h1>
 
                 <div>
-                    <form method="POST" action="{{ route('admin.register') }}" novalidate>
+                    <form method="POST" action="{{ route('admin.show.register') }}" novalidate>
                         @csrf
 
                         <div class="row mb-3">

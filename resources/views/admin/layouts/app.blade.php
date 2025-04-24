@@ -20,9 +20,9 @@
     <div id="app">
         <header style="display: flex; justify-content:space-between; align-items:center; padding:10px 20px; background-color:#4aecf2">
             <div class="menu-buttons">
-                <button class="btn btn-secondary">授業管理</button>
-                <button class="btn btn-secondary">お知らせ管理</button>
-                <button class="btn btn-secondary">バナー管理</button>
+                <a href="{{ route('admin.show.curriculum.list')}}" class="btn btn-secondary">授業管理</a>
+                <a href="{{ route('admin.show.article.list')}}" class="btn btn-secondary">お知らせ管理</a>
+                <a href="{{ route('admin.show.banner.edit')}}" class="btn btn-secondary">バナー管理</a>
             </div>
             <nav>
                 <form method="POST" action="{{ route('admin.logout') }}">

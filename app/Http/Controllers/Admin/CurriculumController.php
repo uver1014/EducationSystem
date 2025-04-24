@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class TopController extends Controller
+class CurriculumController extends Controller
 {
-    public function showTop()
+    public function showCurriculumList()
     {
-        return view('admin.top');
+        return view('admin.curriculum_list');
     }
 }
