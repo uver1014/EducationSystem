@@ -50,7 +50,8 @@ Route::prefix('admin')->namespace('admin')->name('admin.')->group(function () {
     Route::get('/curriculum_list',[AdminCurriculumController::class,'showCurriculumList'])->name('show.curriculum.list');//授業一覧画面
     Route::get('/article_list',[AdminArticleController::class,'showArticleList'])->name('show.article.list');//お知らせ一覧画面
     Route::get('/banner_edit',[AdminBannerController::class,'showBannerEdit'])->name('show.banner.edit');//バナー設定画面
-    Route::resource('banners',BannerController::class);  
+    Route::post('/banner_add',[AdminBannerController::class,'store'])->name('add.banner');
+    Route::delete('/banner_delete/{id}',[AdminBannerController::class,'destroy'])->name('delete.banner');
     Route::middleware('auth:admin')->group(function () {
       Route::get('/top',function (){
         return view('admin.top');
