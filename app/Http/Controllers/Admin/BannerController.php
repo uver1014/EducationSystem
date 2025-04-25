@@ -22,24 +22,28 @@ class BannerController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $file = $request->file('image');
-        $filename = $file->getClientOriginalName();
-        $file->storeAs('public/images/banner', $filename);
+        // アップロードされた画像のオリジナルファイルを取得
+        $originalName = $request->file('image')->getClientOriginalName();
 
+        //　画像を保存するディレクトリ
+        $path = $request->file('image')->storeAs('public/images/banner',$originalName);
+
+        //　データベースに保存
         Banner::create([
-            'image' => 'storage/images/banner/' . $filename,
-        ]);
+            'image' => 'storage/images/banner/' . $originalName]);
 
-        return redirect()->route('admin.show.banner.edit')->with('success', 'バナーを追加しました。');
+        return redirect()->back()->with('success', 'バナーを追加しました。');
     }
 
     public function destroy($id)
     {
         $banner = Banner::findOrFail($id);
+        //　ファイルを削除
         Storage::delete(str_replace('storage/', 'public/', $banner->image));
+        //　データベースから削除
         $banner->delete();
 
-        return redirect()->route('admin.show.banner.edit')->with('success', 'バナーを削除しました。');
+        return redirect()->back()->with('success', 'バナーを削除しました。');
         
     }
 }
