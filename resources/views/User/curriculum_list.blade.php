@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>授業一覧ページ</h1>
+        <a href="{{ route('user.top')}}" style="text-decoration:none; color:black; font-size:1rem;">←戻る</a>
+        <h1>時間割ページ</h1>
     </div>
 @endsection   

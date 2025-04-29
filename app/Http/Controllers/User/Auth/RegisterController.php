@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -68,11 +69,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $elementarySchoolFirstGrade = Grade::where('name','小学１年生')->first();
+
         return User::create([
             'name' => $data['name'],
             'name_kana' => $data['name_kana'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']), //パスワードをハッシュ化
+            'grade_id' =>  $elementarySchoolFirstGrade ? $elementarySchoolFirstGrade->id:null,
         ]);
     }
 

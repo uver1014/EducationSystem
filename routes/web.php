@@ -3,9 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\Auth\LoginController as UserLoginController;
 use App\Http\Controllers\User\Auth\RegisterController as UserRegisterController;
+use App\Http\Controllers\User\TopController;
+use App\Http\Controllers\User\CurriculumController;
+use App\Http\Controllers\User\ProgressController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
-use App\Http\Controllers\User\TopController;
 use App\Http\Controllers\Admin\CurriculumController as AdminCurriculumController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
@@ -37,6 +40,9 @@ Route::prefix('user')->namespace('user')->name('user.')->group(function () {
     Route::get('/register',[UserRegisterController::class,'showRegisterForm'])->name('register');
     Route::post('/register',[UserRegisterController::class,'register']);
     Route::get('/top',[TopController::class,'index'])->name('top'); //トップページルート
+    Route::get('/curriculum_list',[CurriculumController::class,'showCurriculumList'])->name('show.curriculum');
+    Route::get('/progress',[ProgressController::class,'showProgress'])->name('show.progress');
+    Route::get('/profile',[ProfileController::class,'showProfileForm'])->name('show.profile');
 });
 
 //管理者ルート

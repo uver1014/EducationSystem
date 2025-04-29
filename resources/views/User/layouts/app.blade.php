@@ -18,7 +18,22 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <header style="display: flex; justify-content:space-between; align-items:center; padding:10px 20px; background-color:#F26B4A">
+            <div class="menu-buttons">
+                <a href="{{ route('user.show.curriculum') }}" class="btn btn-success">時間割</a>
+                <a href="{{ route('user.show.progress') }}" class="btn btn-success">授業進捗</a>
+                <a href="{{ route('user.show.profile') }}" class="btn btn-success">プロフィール設定</a>
+            </div>
+            <nav>
+                <form method="POST" action="{{ route('user.logout') }}">
+                    @csrf
+                    <button type="submit" class="btn" style="background-color: #F26B4A; color:black; border:none;">ログアウト</button>
+                </form>
+                {{-- <a href="#" style="text-decoration: none; color:white">ログアウト</a>  --}}
+            </nav>
+        </header>
+
+        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -70,7 +85,8 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
+
 
         <main class="py-4">
             @yield('content')
