@@ -15,24 +15,36 @@ class BannerController extends Controller
         $banners = Banner::all();
         return view('admin.banner_edit',compact('banners'));
     }
-
-    public function store(Request $request)
+    public function update(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'old_images.*' => 'nullable|string',
+            'delete_ids.*' => 'nullable|integer',
         ]);
 
-        // アップロードされた画像のオリジナルファイルを取得
-        $originalName = $request->file('image')->getClientOriginalName();
+        //削除されたバナーを処理
+        if ($request->has('delete_ids')) {
+            foreach ($request->input('delete_ids') as $id){
+                $banner = Banner::find($id);
+                if ($banner) {
+                    $banner->deleteImage();
+                    $banner->delete();
+                }
+            }
+        }
 
-        //　画像を保存するディレクトリ
-        $path = $request->file('image')->storeAs('public/images/banner',$originalName);
+        //新しいバナー画像を処理
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = $image->getClientOriginalName();
+                $path = $image->storeAs('public/images/banner',$filename);
+                Banner::create(['image' => str_replace('public/','storage/',$path)]);
+            }
+        }
 
-        //　データベースに保存
-        Banner::create([
-            'image' => 'storage/images/banner/' . $originalName]);
-
-        return redirect()->back()->with('success', 'バナーを追加しました。');
+        return redirect()->route('admin.show.banner.edit')->with('success','バナー画像を更新しました。');
+        
     }
 
     public function destroy($id)
