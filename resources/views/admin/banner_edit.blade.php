@@ -8,12 +8,12 @@
             @csrf
             @method('PUT')
 
-            <div id="banner-container">
+            <div id="banner-container" style="text-align:center">
                 @foreach ($banners as $banner)
                     <div class="banner-item" style="display: flex;">
                         <div>
                         @if ($banner->image)
-                            <img src="{{ asset($banner->image) }}" alt="バナー画像" class="banner-image" style="width: 100px">
+                            <img src="{{ asset($banner->image) }}" alt="バナー画像" class="banner-image" style="width: 200px">
                             <input type="hidden" name="old_images[]" value="{{ $banner->image }}">
                         @else    
                             <p>画像が登録されていません</p>
@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         <input type="file" name="images[]">
-                        <button type="button" class="delete-button" onclick="removeBanner(this,{{ $banner->id }})">ー</button>
+                        <button type="button" class="btn rounded-circle btn-danger" onclick="removeBanner(this,{{ $banner->id }})">ー</button>
                         <input type="hidden" name="delete_ids[]" value="" class="delete-input">
                     </div>
                     </div>
@@ -30,12 +30,12 @@
                 <div id="new-banner-template" class="banner-item hidden">
                     <div>
                         <input type="file" name="images[]">
-                        <button type="button" class="delete-button" onclick="removeBanner(this)">ー</button>   
+                        <button type="button" class="btn rounded-circle btn-danger" onclick="removeBanner(this)">ー</button>   
                     </div>                 </div>
                 </div>
             </div>
             <div>
-            <button type="button" id="add-banner" class="add-button">＋</button>
+            <button type="button" id="add-banner" class="btn rounded-circle btn-success">＋</button>
             </div>
             <div>
             <button type="submit" class="btn btn-secondary">登録</button>
