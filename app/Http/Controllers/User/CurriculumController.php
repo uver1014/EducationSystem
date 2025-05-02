@@ -19,6 +19,7 @@ class CurriculumController extends Controller
         $currentGradeId = $request->input('grade',Auth::user()->grade_id ?? 1);
 
         //配信機関と学年でカリキュラムを取得
+        $Curriculums = Curriculum::available();
         $curriculums = Curriculum::with('grade')
             ->where('grade_id',$currentGradeId)
             ->whereHas('deliveryTimes',function ($query) use ($currentMonth) {
@@ -43,7 +44,7 @@ class CurriculumController extends Controller
     //前月・翌月のカリキュラム表示
     public function changeMonth(Request $request,$direction)
     {
-        $currentMonth = Carbon::parse($request->query('month',Carbon::now()->formal('Y-m')));
+        $currentMonth = Carbon::parse($request->query('month',Carbon::now()->format('Y-m')));
         $newMonth = ($direction === 'prev') ? $currentMonth->subMonth() : $currentMonth->addMonth();
 
         return redirect()->route('user.show.curriculum',[

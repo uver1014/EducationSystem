@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Curriculum extends Model
 {
@@ -29,11 +30,21 @@ class Curriculum extends Model
         return $this->hasMany(DeliveryTime::class,'curriculums_id');
     }
 
-    public function scopCurrentMonth($query,$month)
+    public function scopeCurrentMonth($query,$month)
     {
         return $query->whereHas('deliveryTimes',function ($q) {
             $q->whereMonth('delivery_from',$month);
         });
         
+    }
+
+    //常時公開設定の場合、配信期間に関係なく取得
+    public function scopeAvailable($query)
+    {
+        return $query->where('alway_delivery_flg',1)
+                    ->orWhereHas('deliveryTimes',function ($query) {
+                        $query->where('delivery_from','<=',Carbon::now())
+                                ->where('delivery_to','>=',Carbon::now());
+                    });
     }
 }

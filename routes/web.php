@@ -41,6 +41,8 @@ Route::prefix('user')->namespace('user')->name('user.')->group(function () {
     Route::post('/register',[UserRegisterController::class,'register']);
     Route::get('/top',[TopController::class,'index'])->name('top'); //トップページルート
     Route::get('/curriculum_list',[CurriculumController::class,'showCurriculumList'])->name('show.curriculum');
+    Route::get('/curriculum_list/change-grade/{grade}',[CurriculumController::class,'changeGrade'])->name('curriculums.changeGrade');//学年変更
+    Route::get('/curriculum_list/change-month/{direction}',[CurriculumController::class,'changeMonth'])->name('curriculums.changeMonth');//配信月の変更
     Route::get('/progress',[ProgressController::class,'showProgress'])->name('show.progress');
     Route::get('/profile',[ProfileController::class,'showProfileForm'])->name('show.profile');
 });
