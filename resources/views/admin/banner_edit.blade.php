@@ -10,10 +10,10 @@
 
             <div id="banner-container" style="text-align:center">
                 @foreach ($banners as $banner)
-                    <div class="banner-item" style="display: flex;">
+                    <div class="banner-item" style="padding:10px;display:flex;justify-content:center;align-items:center">
                         <div>
                         @if ($banner->image)
-                            <img src="{{ asset($banner->image) }}" alt="バナー画像" class="banner-image" style="width: 200px">
+                            <img src="{{ asset($banner->image) }}" alt="バナー画像" class="banner-image" style="max-width:200px;max-height:200px;margin-right:10px">
                             <input type="hidden" name="old_images[]" value="{{ $banner->image }}">
                         @else    
                             <p>画像が登録されていません</p>
@@ -22,7 +22,7 @@
                     <div>
                         <input type="file" name="images[]">
                         <button type="button" class="btn rounded-circle btn-danger" onclick="removeBanner(this,{{ $banner->id }})">ー</button>
-                        <input type="hidden" name="delete_ids[]" value="" class="delete-input">
+                        <input type="hidden" name="delete_ids[]" value="" class="deleted-input">
                     </div>
                     </div>
                 @endforeach
@@ -30,39 +30,52 @@
                 <div id="new-banner-template" class="banner-item hidden">
                     <div>
                         <input type="file" name="images[]">
-                        <button type="button" class="btn rounded-circle btn-danger" onclick="removeBanner(this)">ー</button>   
-                    </div>                 </div>
+                        <button type="button" class="btn rounded-circle btn-danger" onclick="removeNewBanner(this)">ー</button>   
+                    </div>
+                    <input type="hidden" name="delete_ids[]" value="" class="deleted-input">
                 </div>
             </div>
-            <div>
+            <div style="padding-left: 20%">
             <button type="button" id="add-banner" class="btn rounded-circle btn-success">＋</button>
             </div>
-            <div>
+            <div style="display:flex;justify-content:center">
             <button type="submit" class="btn btn-secondary">登録</button>
             </div>
         </form>
-
         <script>
-            document.getElementById('add-banner').addEventListener('click',function(){
-                const container = document.getElementById('banner-container');
-                const template = document.getElementById('new-banner-template').cloneNode(true);
-                template.classList.remove('hidden');
-                container.appendChild(template);
-            });
-
-            function removeBanner(element,id) {
+            function removeBanner(element, id) {
                 if (confirm('このバナーを削除しますか？')) {
                     const bannerItem = element.parentNode.parentNode;
-                    const deleteInput = bannerItem.querySelector('.delete-input');
+                    const deleteInput = bannerItem.querySelector('.deleted-input');
                     deleteInput.value = id;
                     bannerItem.style.display = 'none';
                 }
             }
-            
+
             function removeNewBanner(element) {
                 const bannerItem = element.parentNode.parentNode;
                 bannerItem.remove();
             }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const newBannerTemplate = document.getElementById('new-banner-template');
+                if (newBannerTemplate) {
+                    newBannerTemplate.style.display = 'none';
+                }
+
+                document.getElementById('add-banner').addEventListener('click', function() {
+                    const container = document.getElementById('banner-container');
+                    const template = document.getElementById('new-banner-template').cloneNode(true);
+                    template.classList.remove('hidden');
+                    template.classList.add('banner-item');
+                    template.style.display = 'flex';
+                    template.style.paddingTop = '10px';
+                    template.style.justifyContent = 'center';
+                    template.style.alignItems = 'center'; 
+                    container.appendChild(template);
+                });
+            });
         </script>
+
     </div>
 @endsection 
