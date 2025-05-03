@@ -12,7 +12,15 @@
                 </div>
             </div>
             <div class="col-4">
-                <h3 class="btn btn-info" style="color: white">{{ $curriculums->first()->grade->name }}</h1>
+                @php
+                // 現在表示している学年のボタンの色を取得
+                $currentGradeBtnClass = match (true) {
+                    $currentGradeId <= 6 => 'btn-info', //小学1年生～6年生
+                    $currentGradeId <= 9 => 'btn-primary', //中学1年生～3年生
+                    $currentGradeId <= 12 => 'btn-success' //高校1年生～3年生
+                    };
+                @endphp
+                <h3 class="btn {{ $currentGradeBtnClass }}" style="color: white">{{ $curriculums->first()->grade->name }}</h1>
             </div>
         </div>
     </div>

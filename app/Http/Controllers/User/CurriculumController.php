@@ -19,8 +19,8 @@ class CurriculumController extends Controller
         $currentGradeId = $request->input('grade',Auth::user()->grade_id ?? 1);
 
         //配信機関と学年でカリキュラムを取得
-        $Curriculums = Curriculum::available();
-        $curriculums = Curriculum::with('grade')
+        $curriculums = Curriculum::available()
+            ->with('grade')
             ->where('grade_id',$currentGradeId)
             ->whereHas('deliveryTimes',function ($query) use ($currentMonth) {
                 $query->whereMonth('delivery_from',Carbon::parse($currentMonth)->month)
