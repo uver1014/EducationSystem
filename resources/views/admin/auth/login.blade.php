@@ -7,20 +7,15 @@
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     </head>
     <body>
-        <header style="display: flex; justify-content: space-between; align-items:center; padding:10px;">
-            <nav style="margin-left: auto">
-                <a href="{{ route('admin.show.register') }}" style="color: black; text-decoration:none; font-size:1rem">新規会員登録はこちら</a>
+        <header class="d-flex justify-content-between align-items-center p-3">    
+            <nav class="mt-5 ms-auto">    
+                <a href="{{ route('admin.show.register') }}" class="me-5 text-dark text-decoration-none fs-5">新規会員登録はこちら</a>
             </nav>
         </header>    
-
-
-
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            
-                <h1 style="text-align: center">管理画面ログイン</h1>
-
-                <div>
+        <div class="col-md-8">      
+                <h1 class="text-center">管理画面ログイン</h1>
+                <div class="mt-5">
                     <form method="POST" action="{{ route('admin.show.login') }}"novalidate>
                         @csrf
 
@@ -36,7 +31,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row mb-5">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('パスワード') }}</label>
 
                             <div class="col-md-6">
@@ -47,30 +42,11 @@
                                 @enderror
                             </div>
                         </div>
-
-                        {{-- <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div> --}}
-
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-secondary">
+                                <button type="submit" class="btn btn-secondary col-3 mx-auto fs-4">
                                     {{ __('ログイン') }}
                                 </button>
-
-                                {{-- @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif --}}
                             </div>
                         </div>
                     </form>

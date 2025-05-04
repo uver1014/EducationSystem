@@ -4,87 +4,31 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>管理者ページ</title>
 
-    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="{{ asset('js/admin/banner_management.js') }}"></script>
 </head>
 <body>
     <div id="app">
-        <header style="display: flex; justify-content:space-between; align-items:center; padding:10px 20px; background-color:#4aecf2">
+        <header class="d-flex justify-content-between align-items-center p-4 bg-info">
             <div class="menu-buttons">
                 <a href="{{ route('admin.show.curriculum.list')}}" class="btn btn-secondary">授業管理</a>
-                <a href="{{ route('admin.show.article.list')}}" class="btn btn-secondary">お知らせ管理</a>
-                <a href="{{ route('admin.show.banner.edit')}}" class="btn btn-secondary">バナー管理</a>
+                <a href="{{ route('admin.show.article.list')}}" class="btn btn-secondary ms-2">お知らせ管理</a>
+                <a href="{{ route('admin.show.banner.edit')}}" class="btn btn-secondary ms-2">バナー管理</a>
             </div>
             <nav>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
-                    <button type="submit" class="btn" style="background-color: #4aecf2; color:white; border:none;">ログアウト</button>
+                    <button type="submit" class="btn btn-info text-white border-0">ログアウト</button>
                 </form>
-                {{-- <a href="#" style="text-decoration: none; color:white">ログアウト</a>  --}}
             </nav>
         </header>
-        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('admin.logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('ログアウト') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav> --}}
 
         <main class="py-4">
             @yield('content')
