@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterControlle
 use App\Http\Controllers\Admin\CurriculumController as AdminCurriculumController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
+use App\Http\Controllers\Admin\TopController as AdminTopController;
 
 /*
 |--------------------------------------------------------------------------
