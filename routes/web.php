@@ -7,6 +7,8 @@ use App\Http\Controllers\User\TopController;
 use App\Http\Controllers\User\CurriculumController;
 use App\Http\Controllers\User\ProgressController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\DeliveryController;
+
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
 use App\Http\Controllers\Admin\CurriculumController as AdminCurriculumController;
@@ -46,6 +48,7 @@ Route::prefix('user')->namespace('user')->name('user.')->group(function () {
     Route::get('/curriculum_list/change-month/{direction}',[CurriculumController::class,'changeMonth'])->name('curriculums.changeMonth');//配信月の変更
     Route::get('/progress',[ProgressController::class,'showProgress'])->name('show.progress');
     Route::get('/profile',[ProfileController::class,'showProfileForm'])->name('show.profile');
+    Route::get('/delivery/{curriculum}', [DeliveryController::class, 'showDelivery'])->name('show.delivery');
 });
 
 //管理者ルート

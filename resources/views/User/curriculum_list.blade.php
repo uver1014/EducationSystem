@@ -52,7 +52,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $curriculum->title }}</h5>
                                     @if ($curriculum->alway_delivery_flg)
-                                        <p class="card-text"><a href="#" class="text-decoration-none text-dark">常時公開</a></p>
+                                        <p class="card-text"><a href="{{ route('user.show.delivery', ['curriculum' => $curriculum->id]) }}" class="text-decoration-none text-dark">常時公開</a></p>
                                     @else
                                         @php
                                             $hasDeliveryInCurrentMonth = false;
@@ -61,7 +61,7 @@
                                             @foreach ($curriculum->deliveryTimes as $delivery)
                                                 @if (\Carbon\Carbon::parse($delivery->delivery_from)->format('Y-m') === \Carbon\Carbon::parse($currentMonth)->format('Y-m'))
                                                     <li>
-                                                        <a href="#" class="card-text text-decoration-none text-dark">
+                                                        <a href="{{ route('user.show.delivery', ['curriculum' => $curriculum->id]) }}" class="card-text text-decoration-none text-dark">
                                                             {{ \Carbon\Carbon::parse($delivery->delivery_from)->format('m月d日 H:i') }}
                                                             ～
                                                             {{ \Carbon\Carbon::parse($delivery->delivery_to)->format('m月d日 H:i') }}

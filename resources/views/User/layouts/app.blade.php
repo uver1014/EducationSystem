@@ -18,7 +18,7 @@
 </head>
 <body>
     <div id="app">
-        <header class="p-3" style="display: flex; justify-content:space-between; align-items:center; padding:10px 20px; background-color:#F26B4A">
+        <header class="p-3 d-flex justify-content-between align-items-center bg-warning bg-gradient">
             <div class="menu-buttons">
                 <a href="{{ route('user.show.curriculum') }}" class="btn btn-success">時間割</a>
                 <a href="{{ route('user.show.progress') }}" class="btn btn-success ms-2">授業進捗</a>
@@ -27,7 +27,7 @@
             <nav>
                 <form method="POST" action="{{ route('user.logout') }}">
                     @csrf
-                    <button type="submit" class="btn" style="background-color: #F26B4A; color:black; border:none;">ログアウト</button>
+                    <button type="submit" class="btn btn-warning text-dark border-0">ログアウト</button>
                 </form>
             </nav>
         </header>
