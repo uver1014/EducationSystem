@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="d-flex justify-content-center align-items-center">
-                    <a href="{{ route('user.curriculums.changeMonth',['direction' => 'prev','month' => $currentMonth, 'grade' => $currentGradeId]) }}" class="btn me-2">◀</a>
-                    <h4 class="mb-0">{{ \Carbon\Carbon::parse($currentMonth)->format('Y年m月') }}スケジュール</h4>
-                    <a href="{{ route('user.curriculums.changeMonth',['direction' => 'next','month' => $currentMonth, 'grade' => $currentGradeId]) }}" class="btn ms-2">▶</a>
+                    <button id="prevMonth" class="btn me-2">◀</button>
+                    <h4 class="mb-0" id="currentMonth">{{ \Carbon\Carbon::parse($currentMonth)->format('Y年m月') }}スケジュール</h4>
+                    <button id="nextMonth" class="btn ms-2">▶</button>
                 </div>
             </div>
             <div class="col-md-4 d-flex justify-content-center">
@@ -18,9 +18,9 @@
                         $currentGradeId <= 6 => 'btn-info', //小学1年生～6年生
                         $currentGradeId <= 9 => 'btn-primary', //中学1年生～3年生
                         $currentGradeId <= 12 => 'btn-success' //高校1年生～3年生
-                        };
+                    };
                 @endphp
-                <h3 class="btn {{ $currentGradeBtnClass }} text-white">
+                <h3 class="btn {{ $currentGradeBtnClass }} text-white" id="currentGradeName" data-grade-id="{{ $currentGradeId }}">
                     {{ $curriculums->isNotEmpty() ? $curriculums->first()->grade->name : '学年' }}
                 </h3>
             </div>
@@ -38,12 +38,14 @@
                             $grade->id <= 12 => 'btn-success' //高校1年生～3年生
                             };
                     @endphp
-                    <a href="{{ route('user.curriculums.changeGrade',['grade' => $grade->id, 'month' => $currentMonth]) }}" class="btn {{ $btnClass }} text-white mb-3 rounded-pill w-75 mx-auto">
+                    <button class="changeGrade btn {{ $btnClass }} text-white mb-3 rounded-pill w-75 mx-auto"
+                            data-grade-id="{{ $grade->id }}"
+                            data-grade-name="{{ $grade->name }}">
                         {{ $grade->name }}
-                    </a>
+                    </button>
                 @endforeach
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9" id="curriculumList">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     @forelse ($curriculums as $curriculum)
                         <div class="col">
@@ -91,4 +93,5 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="currentMonthHidden" value="{{ $currentMonth }}">
 @endsection
