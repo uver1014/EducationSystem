@@ -7,6 +7,52 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-.bg-custom-info {
-    background-color: #4aecf2 !important; /* !important は Bootstrap のデフォルトスタイルを上書きするために必要となる場合があります */
+//管理画面共通ヘッダー背景
+.bg-custom-adminheader {
+    background-color: #4aecf2 ; 
+}
+
+//ユーザー画面共通ヘッダー背景
+.bg-custom-userheader {
+    background-color: #f26b4a ;
+}
+
+//ユーザー仮面共通ヘッダーボタン
+.btn-custom-userheader {
+    background-color: #169398 !important;
+    border-color: #169398 !important;
+    color: #fff !important; 
+
+    &:hover {
+        background-color: darken(#169398, 10%) !important; 
+        border-color: darken(#169398, 10%) !important;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(#169398, 0.5) !important; 
+    }
+
+    &:active {
+        background-color: darken(#169398, 15%) !important; 
+        border-color: darken(#169398, 15%) !important;
+    }
+}
+
+//ユーザー時間割画面の学年ボタン
+.btn-grade-elementary {
+    background-color: #89e5f5 !important;
+    color: #fff !important;
+    border-color: #89e5f5 !important;
+}
+
+.btn-grade-middle {
+    background-color: #77e5d4 !important;
+    color: #fff !important;
+    border-color: #77e5d4 !important;
+}
+
+.btn-grade-high {
+    background-color: #94d058 !important;
+    color: #fff !important;
+    border-color: #94d058 !important;
 }

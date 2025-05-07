@@ -20,16 +20,16 @@
 </head>
 <body>
     <div id="app">
-        <header class="p-3 d-flex justify-content-between align-items-center bg-warning bg-gradient">
+        <header class="p-3 d-flex justify-content-between align-items-center p-4 bg-custom-userheader">
             <div class="menu-buttons">
-                <a href="{{ route('user.show.curriculum') }}" class="btn btn-success">時間割</a>
-                <a href="{{ route('user.show.progress') }}" class="btn btn-success ms-2">授業進捗</a>
-                <a href="{{ route('user.show.profile') }}" class="btn btn-success ms-2">プロフィール設定</a>
+                <a href="{{ route('user.show.curriculum') }}" class="btn btn-custom-userheader fs-2">時間割</a>
+                <a href="{{ route('user.show.progress') }}" class="btn btn-custom-userheader ms-2 fs-2">授業進捗</a>
+                <a href="{{ route('user.show.profile') }}" class="btn btn-custom-userheader ms-2 fs-2">プロフィール設定</a>
             </div>
             <nav>
                 <form method="POST" action="{{ route('user.logout') }}">
                     @csrf
-                    <button type="submit" class="btn btn-warning text-dark border-0">ログアウト</button>
+                    <button type="submit" class="bg-custom-userheader text-dark border-0 fs-2">ログアウト</button>
                 </form>
             </nav>
         </header>

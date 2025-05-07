@@ -15,42 +15,42 @@
                 @php
                     // 現在表示している学年のボタンの色を取得
                     $currentGradeBtnClass = match (true) {
-                        $currentGradeId <= 6 => 'btn-info', //小学1年生～6年生
-                        $currentGradeId <= 9 => 'btn-primary', //中学1年生～3年生
-                        $currentGradeId <= 12 => 'btn-success' //高校1年生～3年生
+                        $currentGradeId <= 6 => 'btn-grade-elementary', //小学1年生～6年生
+                        $currentGradeId <= 9 => 'btn-grade-middle', //中学1年生～3年生
+                        $currentGradeId <= 12 => 'btn-grade-high' //高校1年生～3年生
                     };
                 @endphp
-                <h3 class="btn {{ $currentGradeBtnClass }} text-white" id="currentGradeName" data-grade-id="{{ $currentGradeId }}">
+                <h3 class="btn {{ $currentGradeBtnClass }} text-white w-50 mx-auto" id="currentGradeName" data-grade-id="{{ $currentGradeId }}">
                     {{ $curriculums->isNotEmpty() ? $curriculums->first()->grade->name : '学年' }}
                 </h3>
             </div>
         </div>
     </div>
-    <div class="container-fluid py-3">
+    <div class="container-fluid py-1 mt-5">
         <div class="row justify-content-between">
             <div class="col-md-3 d-flex flex-column">
                 @foreach (App\Models\Grade::all() as $grade)
                     @php
                         //ボタンのスタイル　学年ごとの設定
                         $btnClass = match (true) {
-                            $grade->id <= 6 => 'btn-info', //小学1年生～6年生
-                            $grade->id <= 9 => 'btn-primary', //中学1年生～3年生
-                            $grade->id <= 12 => 'btn-success' //高校1年生～3年生
-                            };
+                            $grade->id <= 6 => 'btn-grade-elementary', //小学1年生～6年生
+                            $grade->id <= 9 => 'btn-grade-middle', //中学1年生～3年生
+                            $grade->id <= 12 => 'btn-grade-high' //高校1年生～3年生
+                        };
                     @endphp
-                    <button class="changeGrade btn {{ $btnClass }} text-white mb-3 rounded-pill w-75 mx-auto"
+                    <button class="changeGrade btn {{ $btnClass }} text-white mb-3 rounded-pill w-50 mx-auto"
                             data-grade-id="{{ $grade->id }}"
                             data-grade-name="{{ $grade->name }}">
                         {{ $grade->name }}
                     </button>
                 @endforeach
             </div>
-            <div class="col-md-9" id="curriculumList">
+            <div class="col-md-8 me-5" id="curriculumList">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     @forelse ($curriculums as $curriculum)
                         <div class="col">
                             <div class="card h-100">
-                                <img src="{{ $curriculum->thumbnail}}" class="card-img-top p-3 mx-auto d-block" style="max-width: 200px; max-height: 150px; object-fit: contain;" alt="{{ $curriculum->title }}">
+                                <img src="{{ $curriculum->thumbnail}}" class="card-img-top p-3 mx-auto d-block" style="max-width: 300px; max-height: 250px; object-fit: contain;" alt="{{ $curriculum->title }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $curriculum->title }}</h5>
                                     @if ($curriculum->alway_delivery_flg)
