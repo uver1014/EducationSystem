@@ -65,7 +65,7 @@ class RegisterController extends Controller
             'name.required' => 'ユーザーネームを入力してください。',
             
             'kana.required' => 'カナを入力してください。',
-            'kana.required' => 'カタカナで入力してください。',
+            'kana.regex' => 'カタカナで入力してください。',
 
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' =>'＠を含むメール形式で入力してください。',

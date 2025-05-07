@@ -6,3 +6,7 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+.bg-custom-info {
+    background-color: #4aecf2 !important; /* !important は Bootstrap のデフォルトスタイルを上書きするために必要となる場合があります */
+}

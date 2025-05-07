@@ -16,16 +16,16 @@
 </head>
 <body>
     <div id="app">
-        <header class="d-flex justify-content-between align-items-center p-4 bg-info">
+        <header class="d-flex justify-content-between align-items-center p-4 bg-custom-info">
             <div class="menu-buttons">
-                <a href="{{ route('admin.show.curriculum.list')}}" class="btn btn-secondary">授業管理</a>
-                <a href="{{ route('admin.show.article.list')}}" class="btn btn-secondary ms-2">お知らせ管理</a>
-                <a href="{{ route('admin.show.banner.edit')}}" class="btn btn-secondary ms-2">バナー管理</a>
+                <a href="{{ route('admin.show.curriculum.list')}}" class="btn btn-secondary fs-2">授業管理</a>
+                <a href="{{ route('admin.show.article.list')}}" class="btn btn-secondary ms-2 fs-2">お知らせ管理</a>
+                <a href="{{ route('admin.show.banner.edit')}}" class="btn btn-secondary ms-2 fs-2">バナー管理</a>
             </div>
             <nav>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
-                    <button type="submit" class="btn btn-info text-white border-0">ログアウト</button>
+                    <button type="submit" class="btn btn-info bg-custom-info text-white border-0 fs-2">ログアウト</button>
                 </form>
             </nav>
         </header>

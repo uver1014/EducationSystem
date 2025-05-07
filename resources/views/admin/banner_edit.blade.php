@@ -21,7 +21,7 @@
                         </div>
                         <div>
                             <input type="file" name="images[]" class="ms-3">
-                            <button type="button" class="btn rounded-circle btn-danger fw-bold" onclick="removeBanner(this,{{ $banner->id }})">—</button>
+                            <button type="button" class="btn rounded-circle btn-danger fw-bold" onclick="removeBanner(this,{{ $banner->id }})">ー</button>
                             <input type="hidden" name="delete_ids[]" value="" class="deleted-input">
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                 <div id="new-banner-template" class="banner-item hidden">
                     <div>
                         <input type="file" name="images[]">
-                        <button type="button" class="btn rounded-circle btn-danger fw-bold" onclick="removeNewBanner(this)">—</button>
+                        <button type="button" class="btn rounded-circle btn-danger fw-bold" onclick="removeNewBanner(this)">ー</button>
                     </div>
                     <input type="hidden" name="delete_ids[]" value="" class="deleted-input">
                 </div>

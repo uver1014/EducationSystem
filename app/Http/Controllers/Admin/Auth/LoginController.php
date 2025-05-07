@@ -41,7 +41,7 @@ class LoginController extends Controller
             return redirect()->route('admin.top');
         }
 
-        return back()->withErrors(['email' => 'メールアドレスまたはパスワードが正しくありません。'])->withTnput();
+        return back()->withErrors(['auth' => 'メールアドレスまたはパスワードが正しくありません。'])->withInput();
         
     }
 
