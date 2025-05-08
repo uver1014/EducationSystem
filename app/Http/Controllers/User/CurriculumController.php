@@ -15,6 +15,9 @@ class CurriculumController extends Controller
         //現在の月を取得（デフォルトは現在）
         $currentMonth = $request->input('month',Carbon::now()->format('Y-m'));
 
+         // ログインユーザーの学年ID
+        $currentUserGradeId = Auth::user()->grade_id ?? 1;
+
         //ユーザーのデフォルト学年（ログイン中のユーザーの学年）
         $currentGradeId = $request->input('grade',Auth::user()->grade_id ?? 1);
 
@@ -31,32 +34,7 @@ class CurriculumController extends Controller
               });
     })
     ->get();
-        // //配信機関と学年でカリキュラムを取得
-        // $curriculums = Curriculum::available()
-        // ->with('grade', 'deliveryTimes') // deliveryTimes を eager load
-        // ->where('grade_id', $currentGradeId)
-        // ->where(function ($query) use ($currentMonth) {
-        //     $query->where('alway_delivery_flg', 1)
-        //           ->orWhereHas('deliveryTimes', function ($q) use ($currentMonth) {
-        //               $q->whereMonth('delivery_from', Carbon::parse($currentMonth)->month)
-        //                 ->whereYear('delivery_from', Carbon::parse($currentMonth)->year);
-        //           });
-        // })
-        // ->get();
-
-        // dd($curriculums);
-
-        // $curriculums = Curriculum::available()
-        //     ->with('grade')
-        //     ->where('grade_id',$currentGradeId)
-        //     ->whereHas('deliveryTimes',function ($query) use ($currentMonth) {
-        //         $query->whereMonth('delivery_from',Carbon::parse($currentMonth)->month)
-        //               ->whereYear('delivery_from',Carbon::parse($currentMonth)->year);
-        //     })
-        //     ->get();
-
-
-        return view('user.curriculum_list',compact('curriculums','currentMonth','currentGradeId'));
+        return view('user.curriculum_list',compact('curriculums','currentMonth','currentGradeId','currentUserGradeId'));
     }
 
     //学年変更時のカリキュラム表示

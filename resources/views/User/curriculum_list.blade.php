@@ -28,6 +28,7 @@
     </div>
     <div class="container-fluid py-1 mt-5">
         <div class="row justify-content-between">
+            {{-- 学年切り替えボタン --}}
             <div class="col-md-3 d-flex flex-column">
                 @foreach (App\Models\Grade::all() as $grade)
                     @php
@@ -37,10 +38,13 @@
                             $grade->id <= 9 => 'btn-grade-middle', //中学1年生～3年生
                             $grade->id <= 12 => 'btn-grade-high' //高校1年生～3年生
                         };
+                        // 非活性にするかどうか
+                        $disabled = $grade->id > $currentUserGradeId;
                     @endphp
                     <button class="changeGrade btn {{ $btnClass }} text-white mb-3 rounded-pill w-50 mx-auto"
                             data-grade-id="{{ $grade->id }}"
-                            data-grade-name="{{ $grade->name }}">
+                            data-grade-name="{{ $grade->name }}"
+                            @if($disabled) disabled @endif>
                         {{ $grade->name }}
                     </button>
                 @endforeach
