@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Models\Banner;
+use Illuminate\Support\Facades\Log;
 
 class BannerController extends Controller
 {
@@ -23,39 +25,70 @@ class BannerController extends Controller
             'delete_ids.*' => 'nullable|integer',
         ]);
 
-        //削除されたバナーを処理
-        if ($request->has('delete_ids')) {
-            foreach ($request->input('delete_ids') as $id){
-                $banner = Banner::find($id);
-                if ($banner) {
-                    $banner->deleteImage();
-                    $banner->delete();
+        DB::beginTransaction();
+
+        try {
+            //削除処理
+            if ($request->has('delete_ids')) {
+                foreach ($request->input('delete_ids') as $id){
+                    $banner = Banner::find($id);
+                    if ($banner) {
+                        $banner->deleteImage();
+                        $banner->delete();
+                    }
                 }
             }
-        }
 
-        //新しいバナー画像を処理
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = $image->getClientOriginalName();
-                $path = $image->storeAs('public/images/banner',$filename);
-                Banner::create(['image' => str_replace('public/','storage/',$path)]);
+            //新規バナー処理
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $filename = $image->getClientOriginalName();
+                    $path = $image->storeAs('public/images/banner',$filename);
+                    Banner::create(['image' => str_replace('public/','storage/',$path)]);
+                }
             }
+
+            DB::commit();
+
+           return redirect()->route('admin.show.banner.edit')->with('success','バナー画像を更新しました。');
+
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            \Log::error('バナー更新エラー: ' . $e->getMessage());
+
+            return redirect()->route('admin.show.banner.edit')
+                            ->with('error', 'バナー画像の更新中にエラーが発生しました。');
         }
 
-        return redirect()->route('admin.show.banner.edit')->with('success','バナー画像を更新しました。');
         
     }
 
     public function destroy($id)
     {
-        $banner = Banner::findOrFail($id);
-        //　ファイルを削除
-        Storage::delete(str_replace('storage/', 'public/', $banner->image));
-        //　データベースから削除
-        $banner->delete();
+        DB::beginTransaction();
 
-        return redirect()->back()->with('success', 'バナーを削除しました。');
+        try {
+            $banner = Banner::findOrFail($id);
+            //ファイルを削除
+            Storage::delete(str_replace('storage/', 'public/', $banner->image));
+            //データベースから削除
+            $banner->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'バナーを削除しました。');
         
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            \Log::error('バナー削除中にエラーが発生しました: ' . $e->getMessage(), [
+                'id' => $id,
+                'trace' => $e->getTraceAsString(),
+            ]);
+    
+            return redirect()->back()->with('error', 'バナーの削除中にエラーが発生しました。');
+        }       
     }
 }
