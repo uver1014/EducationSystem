@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\Banner;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\UpdateBannerRequest;
 
 class BannerController extends Controller
 {
@@ -17,14 +18,21 @@ class BannerController extends Controller
         $banners = Banner::all();
         return view('admin.banner_edit',compact('banners'));
     }
-    public function update(Request $request)
-    {
-        $request->validate([
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'old_images.*' => 'nullable|string',
-            'delete_ids.*' => 'nullable|integer',
-        ]);
 
+        //新規バナー処理
+        private function storeNewBanners(array $images): void
+    {
+        foreach ($images as $image) {
+            $filename = $image->getClientOriginalName();
+            $path = $image->storeAs('public/images/banner', $filename);
+            Banner::create([
+            'image' => str_replace('public/', 'storage/', $path)
+            ]);
+        }
+    }
+
+    public function update(UpdateBannerRequest $request)
+    {
         DB::beginTransaction();
 
         try {
@@ -41,18 +49,13 @@ class BannerController extends Controller
 
             //新規バナー処理
             if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $filename = $image->getClientOriginalName();
-                    $path = $image->storeAs('public/images/banner',$filename);
-                    Banner::create(['image' => str_replace('public/','storage/',$path)]);
-                }
+            $this->storeNewBanners($request->file('images'));
             }
 
             DB::commit();
 
            return redirect()->route('admin.show.banner.edit')->with('success','バナー画像を更新しました。');
-
-            
+  
         } catch (\Throwable $th) {
             DB::rollBack();
 
@@ -60,9 +63,7 @@ class BannerController extends Controller
 
             return redirect()->route('admin.show.banner.edit')
                             ->with('error', 'バナー画像の更新中にエラーが発生しました。');
-        }
-
-        
+        } 
     }
 
     public function destroy($id)
