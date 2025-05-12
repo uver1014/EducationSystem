@@ -29,4 +29,9 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+    protected $routeMiddleware = [
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class, //管理者用ミドルウェア
+        'user' => \App\Http\Middleware\UserMiddleware::class, //ユーザー用ミドルウェア
+    ];
 }
