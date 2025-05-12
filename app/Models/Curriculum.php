@@ -10,6 +10,8 @@ class Curriculum extends Model
 {
     use HasFactory;
 
+    const ALWAYS_DELIVERY_FLAG_ON = 1;
+
     protected $table = 'curriculums';
     protected $fillable = [
         'title',
@@ -41,7 +43,7 @@ class Curriculum extends Model
     //常時公開設定の場合、配信期間に関係なく取得
     public function scopeAvailable($query)
     {
-        return $query->where('alway_delivery_flg',1)
+        return $query->where('alway_delivery_flg',Curriculum::ALWAYS_DELIVERY_FLAG_ON)
                     ->orWhereHas('deliveryTimes',function ($query) {
                         $query->where('delivery_from','<=',Carbon::now())
                                 ->where('delivery_to','>=',Carbon::now());

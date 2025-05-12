@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Curriculum;
 use Carbon\Carbon;
+use App\Models\Grade;
 
 class CurriculumController extends Controller
 {
@@ -19,17 +20,36 @@ class CurriculumController extends Controller
             $currentMonth = $request->input('month',Carbon::now()->format('Y-m'));
 
             // ログインユーザーの学年ID
-            $currentUserGradeId = Auth::user()->grade_id ?? 1;
+            $currentUserGradeId = Auth::user()->grade_id ?? Grade::DEFAULT_GRADE_ID;
 
             //ユーザーのデフォルト学年（ログイン中のユーザーの学年）
-            $currentGradeId = $request->input('grade',Auth::user()->grade_id ?? 1);
+            $currentGradeId = $request->input('grade',Auth::user()->grade_id ?? Grade::DEFAULT_GRADE_ID);
+
+            // 追加：学年に応じたボタンのクラスを決定
+            $currentGradeBtnClass = match (true) {
+            $currentGradeId <= Grade::ELEMENTARY_MAX => 'btn-grade-elementary',
+            $currentGradeId <= Grade::MIDDLE_MAX  => 'btn-grade-middle',
+            $currentGradeId <= Grade::HIGH_MAX => 'btn-grade-high',
+            default => '', // 念のためデフォルト
+            };
+            
+            $grades = Grade::all()->map(function ($grade) use ($currentUserGradeId) {
+            $grade->btn_class = match (true) {
+            $grade->id <= Grade::ELEMENTARY_MAX => 'btn-grade-elementary',
+            $grade->id <= Grade::MIDDLE_MAX => 'btn-grade-middle',
+            $grade->id <= Grade::HIGH_MAX => 'btn-grade-high',
+            default => ''
+            };
+            $grade->is_disabled = $grade->id > $currentUserGradeId;
+            return $grade;
+            });
 
             //配信機関と学年でカリキュラムを取得
             $curriculums = Curriculum::with('grade', 'deliveryTimes')
                 ->where('grade_id', $currentGradeId)
                 ->where(function ($query) use ($currentMonth) {
                 // 常時公開のカリキュラム
-                $query->where('alway_delivery_flg', 1)
+                $query->where('alway_delivery_flg', Curriculum::ALWAYS_DELIVERY_FLAG_ON)
                 // または、指定された配信月のカリキュラム
                     ->orWhereHas('deliveryTimes', function ($q) use ($currentMonth) {
                     $q->whereMonth('delivery_from', Carbon::parse($currentMonth)->month)
@@ -37,7 +57,7 @@ class CurriculumController extends Controller
                 });
             })
             ->get();
-            return view('user.curriculum_list',compact('curriculums','currentMonth','currentGradeId','currentUserGradeId'));
+            return view('user.curriculum_list',compact('curriculums','currentMonth','currentGradeId','currentUserGradeId','currentGradeBtnClass','grades'));
 
         } catch (\Exception $e) {
             \Log::error('カリキュラム表示中にエラー: ' . $e->getMessage(), [
