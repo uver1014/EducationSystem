@@ -17,13 +17,13 @@
     <header>
         <div class="header">
             <div class="header-controls">
-                <a href="{{ route('show.curriculum.list') }}" class="btn-curriculum">授業管理</a>
-                <a href="{{ route('show.article.list') }}"  class="btn-notice">お知らせ管理</a>
-                <a href="{{ route('show.banner.edit') }}"  class="btn-banner">バナー管理</a>
+                <a href="{{ route('admin.show.curriculum.list') }}" class="btn-curriculum">授業管理</a>
+                <a href="{{ route('admin.show.article.list') }}"  class="btn-notice">お知らせ管理</a>
+                <a href="{{ route('admin.show.banner.edit') }}"  class="btn-banner">バナー管理</a>
                 <a href="#" class="btn-logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     ログアウト
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
                     @csrf
                 </form>
             </div>

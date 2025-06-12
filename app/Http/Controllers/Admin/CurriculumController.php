@@ -62,7 +62,7 @@ class CurriculumController extends Controller{
         $curriculum->alway_delivery_flg = $request->has('alway_delivery_flg') ? 1 : 0;
 
         $curriculum->save();
-        return redirect()->route('show.curriculum.create')->with('success', '登録が完了しました');
+        return redirect()->route('admin.show.curriculum.create')->with('success', '登録が完了しました');
     }
 
     public function update(Request $request, $id){

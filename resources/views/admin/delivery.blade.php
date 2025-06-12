@@ -10,7 +10,7 @@
     @extends('layouts.app')
     @section('content')
 
-        <a href="{{ route('show.curriculum.list') }}?grade={{ $curriculum->grade_id }}"  class="back">←戻る</a>
+        <a href="{{ route('admin.show.curriculum.list') }}?grade={{ $curriculum->grade_id }}"  class="back">←戻る</a>
             <h1>配信日時設定</h1>
             @if (session('success'))
                 <div class="alert alert-success">
@@ -20,7 +20,7 @@
             
             <p>{{ $title }}</p>
 
-            <form action="{{ route('delivery.update', $curriculum_id) }}" method="POST">
+            <form action="{{ route('admin.delivery.update', $curriculum_id) }}" method="POST">
                 @csrf
                 <div id="delivery-container">
                     @foreach ($deliverytimes as $time)

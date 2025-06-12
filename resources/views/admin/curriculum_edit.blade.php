@@ -9,7 +9,7 @@
     @extends('layouts.app')
     @section('content')
 
-        <a href="{{ route('show.curriculum.list') }}?grade={{ $curriculum->grade_id }}" class="back">←戻る</a>
+        <a href="{{ route('admin.show.curriculum.list') }}?grade={{ $curriculum->grade_id }}" class="back">←戻る</a>
             <h1>授業設定</h1>
         
                 
@@ -32,7 +32,7 @@
             <div id="ajax-error-message" class="alert alert-danger" style="display: none;"></div>
 
             @if($curriculum->id)
-            <form action="{{ route('curriculum.update', ['id' => $curriculum->id]) }}" method="POST" enctype="multipart/form-data" id="curriculum-edit-form">  
+            <form action="{{ route('admin.curriculum.update', ['id' => $curriculum->id]) }}" method="POST" enctype="multipart/form-data" id="curriculum-edit-form">  
                 @csrf
                 <div class="form-block-thumbnail">
                     <div class="thumbnail-preview">
@@ -88,7 +88,7 @@
             </form>
 
             @else
-            <form action="{{ route('curriculum.store') }}" method="POST" enctype="multipart/form-data" id="curriculum-create-form">
+            <form action="{{ route('admin.curriculum.store') }}" method="POST" enctype="multipart/form-data" id="curriculum-create-form">
                 @csrf
 
                 <div class="form-block-thumbnail">
@@ -154,7 +154,7 @@
                         let method = form.attr('method') || 'POST'; 
 
                         $.ajax({
-                            url: "{{ url('curriculum_update') }}/" + curriculumId,
+                            url: "{{ url('admin/curriculum_update') }}/" + curriculumId,
                             type: 'POST',
                             data: form.serialize(),
                             dataType: 'json',
@@ -162,7 +162,7 @@
                                 $('#ajax-success-message').text(response.message).show();
 
                             $.ajax({
-                                url: "{{ url('curriculums') }}/" + response.grade_id,
+                                url: "{{ url('admin/curriculums') }}/" + response.grade_id,
                                 type: 'GET',
                                 dataType: 'json',
                                 success: function(curriculums) {

@@ -8,11 +8,10 @@
     <body>
     @extends('layouts.app')
     @section('content')
-
         <a href="" onclick="history.back()" class="back">←戻る</a>
             <h1>授業一覧</h1>
                 <div class="register-container">
-                    <a href="{{ route('show.curriculum.create') }}" class="register-class">新規登録</a>
+                    <a href="{{ route('admin.show.curriculum.create') }}" class="register-class">新規登録</a>
                     <p class="selected-grade">学年を選択してください</p>
                 </div>
 
@@ -56,7 +55,7 @@
                                 let gradeId = $(this).data("grade");
 
                                 $.ajax({
-                                    url: "{{ url('curriculums') }}/" + gradeId, 
+                                    url: "{{ url('admin/curriculums') }}/" + gradeId, 
                                     type: "GET",
                                     dataType: "json",
                                     success: function (curriculums) {
@@ -88,8 +87,8 @@
                                     }
                                 });
 
-                                const curriculumEditBaseUrl = "{{ url('curriculum_edit') }}";
-                                const deliveryEditBaseUrl = "{{ url('delivery_time_edit') }}";
+                                const curriculumEditBaseUrl = "{{ url('admin/curriculum_edit') }}";
+                                const deliveryEditBaseUrl = "{{ url('admin/delivery_time_edit') }}";
 
                                 let html = curriculums.length
                                     ? `<div class="curriculum">` + 
