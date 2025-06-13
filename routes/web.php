@@ -25,7 +25,7 @@ Route::get('/', function () {
 //Auth::routes();
 Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
     Route::get('curriculums_list', [CurriculumController::class, 'showCurriculumList'])->name('show.curriculum.list');
-    Route::get('curriculums/{id}', [CurriculumController::class, 'gradeCurriculums'])->name('gradeCurriculums');
+    Route::get('curriculums/{id}', [CurriculumController::class, 'getGradeCurriculums'])->name('get.gradeCurriculums');
     Route::get('/curriculum_edit/{id}', [CurriculumController::class, 'showCurriculumEdit'])->name('show.curriculum.edit');
     Route::get('/curriculum_edit', [CurriculumController::class, 'createCurriculum'])->name('show.curriculum.create');
     Route::post('/curriculum_update/{id}', [CurriculumController::class, 'update'])->name('curriculum.update');
