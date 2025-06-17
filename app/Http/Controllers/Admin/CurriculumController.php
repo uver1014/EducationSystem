@@ -26,13 +26,15 @@ class CurriculumController extends Controller{
 
     public function createCurriculum(){
         $curriculum = new Curriculum();
+         $grades = Grade::all(); 
         $curriculum->deliveryTimes = collect();
-        return view('admin.curriculum_edit', compact('curriculum'));
+        return view('admin.curriculum_edit', compact('curriculum', 'grades'));
     }
 
     public function showCurriculumEdit($id){
+        $grades = Grade::all(); 
         $curriculum = Curriculum::with('deliveryTimes')->findOrFail($id);
-        return view('admin.curriculum_edit', compact('curriculum'));
+        return view('admin.curriculum_edit', compact('curriculum', 'grades'));
     }
 
     public function store(StoreCurriculumRequest $request){
