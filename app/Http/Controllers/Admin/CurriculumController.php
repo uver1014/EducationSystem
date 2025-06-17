@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class CurriculumController extends Controller{
     public function showCurriculumList(){
+        $grades = Grade::all();
         $curriculums = Curriculum::with('deliveryTimes')->get();
-        return view('admin.curriculum_list', compact('curriculums'));
+        return view('admin.curriculum_list', compact('curriculums', 'grades'));
     }
 
-    //public function gradeCurriculums($id){
     public function getGradeCurriculums($id){
         $grade = Grade::findOrFail($id);
         $curriculums = $grade->curriculums()->with('deliveryTimes')->get(); 
