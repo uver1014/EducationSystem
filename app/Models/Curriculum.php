@@ -25,7 +25,15 @@ class Curriculum extends Model{
     ];
 
     public function saveCurriculumData(Request $request){
-        $this->thumbnail = $request->input('thumbnail');
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $this->thumbnail = $path;
+        } elseif ($this->exists) {
+        } else {
+            $this->thumbnail = null;
+        }
+
+        
         $this->grade_id = $request->input('grade');
         $this->title = $request->input('title');
         $this->video_url = $request->input('video_url');

@@ -28,9 +28,12 @@
         <form action="{{ route('admin.curriculum.update', ['id' => $curriculum->id]) }}" method="POST" enctype="multipart/form-data" id="curriculum-edit-form">  
             @csrf
             <div class="form-block-thumbnail">
-                <div class="thumbnail-preview">
-                        <img class="thumbnail-image" src="{{ asset($curriculum->thumbnail) }}" alt="サムネイル画像" width="150">
-                </div>
+                <div class="thumbnail-preview">                
+                <img class="thumbnail-image" 
+                    src="{{ Str::startsWith($curriculum->thumbnail, 'http') ? $curriculum->thumbnail : asset('storage/' . $curriculum->thumbnail) }}" 
+                    alt="サムネイル画像" width="150">
+
+                    </div>
                 <div class="thumbnail-controls">
                     <label class="label-thumbnail">サムネイル</label>
                     <input type="file" name="thumbnail">
@@ -121,6 +124,7 @@
         </form>
         @endif
 
+
         <script>
             let curriculumId = {{ $curriculum->id }};
 
@@ -128,14 +132,19 @@
                 $('#curriculum-edit-form').submit(function(e) {
                     e.preventDefault(); 
 
-                    let form = $(this);
-                    let url = form.attr('action'); 
-                    let method = form.attr('method') || 'POST'; 
+                    //let form = $(this);
+                    //let url = form.attr('action'); 
+                    //let method = form.attr('method') || 'POST'; 
+                     let form = $(this)[0]; 
+                     let formData = new FormData(form);  
 
                     $.ajax({
                         url: "{{ url('admin/curriculum_update') }}/" + curriculumId,
                         type: 'POST',
-                        data: form.serialize(),
+                        data: formData,
+                        //data: form.serialize(),
+                        processData: false,  // jQueryにデータの加工をさせない
+                        contentType: false,  // コンテンツタイプを自動設定
                         dataType: 'json',
                         success: function(response) {
                             $('#ajax-success-message').text(response.message).show();
@@ -153,13 +162,13 @@
                             });
                         },
 
-                            error: function(xhr) {
-                        let errorMessage = '更新に失敗しました。';
+                        error: function(xhr) {
+                            let errorMessage = '更新に失敗しました。';
 
-                        if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            errorMessage = Object.values(xhr.responseJSON.errors).flat().join('\n');
+                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                errorMessage = Object.values(xhr.responseJSON.errors).flat().join('\n');
+                                }
                             }
-                        }
                     });
                 });
             });

@@ -56,16 +56,16 @@
                     });
 
                     function updateCurriculumList(curriculums) {
-                        console.log("受け取ったカリキュラムデータ:", curriculums);
+                       // console.log("受け取ったカリキュラムデータ:", curriculums);
 
                         curriculums.forEach(c => {
-                            console.log(`カリキュラム: ${c.title}`);
-                            console.log(`常時公開フラグ: ${c.alway_delivery_flg}`);
+                         //   console.log(`カリキュラム: ${c.title}`);
+                         //   console.log(`常時公開フラグ: ${c.alway_delivery_flg}`);
 
                             if (c.delivery_times && c.delivery_times.length > 0) {
                                 c.delivery_times.forEach((dt, index) => {
-                                    console.log(`公開開始日 ${index + 1}: ${dt.delivery_from || "なし"}`);
-                                    console.log(`公開終了日 ${index + 1}: ${dt.delivery_to || "なし"}`);
+                                 //   console.log(`公開開始日 ${index + 1}: ${dt.delivery_from || "なし"}`);
+                                 //   console.log(`公開終了日 ${index + 1}: ${dt.delivery_to || "なし"}`);
                                 });
                             }
                         });
@@ -78,7 +78,9 @@
                                 curriculums.map(c => {
                                     return `
                                     <div class="curriculum-content">
-                                        <img src="${c.thumbnail}" alt="授業サムネイル" class="thumbnail">
+                                       ${c.thumbnail
+                                        ? `<img src="${c.thumbnail.startsWith('http') ? c.thumbnail : '/EducationSystem/public/storage/' + c.thumbnail}" alt="授業サムネイル" class="thumbnail">`
+                                        : `<p class="thumbnail no-thumbnail">画像がありません</p>`}
                                         <p class="video-title">${c.title}</p>
 
                                         ${
@@ -97,6 +99,7 @@
                             `</div>`
                             : "<p>カリキュラムがありません。</p>";
 
+                            
                         $("#curriculum").html(html);
                     }
                 });

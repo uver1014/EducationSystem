@@ -24,7 +24,7 @@ class StoreCurriculumRequest extends FormRequest
     public function rules()
     {
         return [
-            'thumbnail' => 'string',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,',
             'grade' => 'required|integer',
             'title' => 'required|string|max:255',
             'video_url' => 'required|url',
@@ -40,7 +40,8 @@ class StoreCurriculumRequest extends FormRequest
             'title.required' => '授業名は必須です',
             'video_url.required' => '動画URLは必須です',
             'description.required' => '授業概要は必須です',
-            'thumbnail.string' => 'サムネイルの値が不正です',
+            'thumbnail.image' => 'サムネイルの画像が不正です。',
+            'thumbnail.mimes' => 'サムネイルにはjpg・jpeg・png形式のファイルを指定してください。',
             'grade.integer' => '学年は数字で指定してください',
             'title.string' => '授業名は文字列で入力してください',
             'title.max' => '授業名は255文字以内で入力してください',
