@@ -56,16 +56,9 @@
                     });
 
                     function updateCurriculumList(curriculums) {
-                       // console.log("受け取ったカリキュラムデータ:", curriculums);
-
                         curriculums.forEach(c => {
-                         //   console.log(`カリキュラム: ${c.title}`);
-                         //   console.log(`常時公開フラグ: ${c.alway_delivery_flg}`);
-
                             if (c.delivery_times && c.delivery_times.length > 0) {
                                 c.delivery_times.forEach((dt, index) => {
-                                 //   console.log(`公開開始日 ${index + 1}: ${dt.delivery_from || "なし"}`);
-                                 //   console.log(`公開終了日 ${index + 1}: ${dt.delivery_to || "なし"}`);
                                 });
                             }
                         });

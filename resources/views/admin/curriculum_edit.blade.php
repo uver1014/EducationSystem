@@ -21,6 +21,35 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        <script>
+          $(function() {
+            $('#curriculum-edit-form').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#ajax-success-message').text(res.message).show();
+                        $('#ajax-error-message').hide();
+                    },
+                    error: function(xhr) {
+                        let msg = '更新に失敗しました。';
+                        if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                            msg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+                        }
+                        $('#ajax-error-message').html(msg).show();
+                        $('#ajax-success-message').hide();
+                    }
+                });
+            });
+        });
+        </script>
+
         <div id="ajax-success-message" class="alert alert-success" style="display: none;"></div>
         <div id="ajax-error-message" class="alert alert-danger" style="display: none;"></div>
 

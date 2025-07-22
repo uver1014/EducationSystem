@@ -26,7 +26,7 @@ class CurriculumController extends Controller{
 
     public function createCurriculum(){
         $curriculum = new Curriculum();
-         $grades = Grade::all(); 
+        $grades = Grade::all(); 
         $curriculum->deliveryTimes = collect();
         return view('admin.curriculum_edit', compact('curriculum', 'grades'));
     }
@@ -46,7 +46,7 @@ class CurriculumController extends Controller{
         return redirect()->route('admin.show.curriculum.create')->with('success', '登録が完了しました');
     }
 
-    public function update(Request $request, $id){
+    public function update(StoreCurriculumRequest $request, $id){
         $response = DB::transaction(function () use ($request, $id) {
             $curriculum = Curriculum::findOrFail($id);
             $curriculum->saveCurriculumData($request)->save();
