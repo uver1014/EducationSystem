@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+
+class Curriculum extends Model{
+    use HasFactory;
+
+    protected $table = 'curriculums';
+    protected $fillable = [
+        'id', 
+        'title',
+        'thumbnail',
+        'description',
+        'video_url',
+        'alway_delivery_flg',
+        'grade_id',
+    ]; 
+
+    protected $casts = [
+    'alway_delivery_flg' => 'boolean',
+    ];
+
+    public function saveCurriculumData(Request $request){
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $this->thumbnail = $path;
+        } elseif ($this->exists) {
+        } else {
+            $this->thumbnail = null;
+        }
+
+        
+        $this->grade_id = $request->input('grade');
+        $this->title = $request->input('title');
+        $this->video_url = $request->input('video_url');
+        $this->description = $request->input('description');
+        $this->alway_delivery_flg = $request->has('alway_delivery_flg') ? 1 : 0;
+
+        return $this; 
+    }
+
+    public function saveDeliveryTimes(array $fromDate, array $fromTime, array $toDate, array $toTime): void{
+        DeliveryTime::saveForCurriculum($this, $fromDate, $fromTime, $toDate, $toTime);
+        
+        $this->alway_delivery_flg = 0;
+        $this->save();
+    }
+
+    public function grade() {
+        return $this->belongsTo(Grade::class, 'grade_id');
+    }
+
+    public function deliveryTimes() {
+        return $this->hasmany(DeliveryTime::class, 'curriculums_id');
+    }
+}
