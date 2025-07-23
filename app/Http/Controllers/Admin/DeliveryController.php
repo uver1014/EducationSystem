@@ -33,10 +33,10 @@ class DeliveryController extends Controller{
     
     public function update(UpdateDeliveryRequest $request, $id){
         $curriculum = Curriculum::findOrFail($id);
-        $fromDate = $request->delivery_from_date;
-        $fromTime = $request->delivery_from_time;
-        $toDate   = $request->delivery_to_date;
-        $toTime   = $request->delivery_to_time;
+        $fromDate = $request->delivery_from_date ?? [];
+        $fromTime = $request->delivery_from_time ?? [];
+        $toDate   = $request->delivery_to_date ?? [];
+        $toTime   = $request->delivery_to_time ?? [];
 
         try {
             DB::transaction(function () use ($curriculum, $fromDate, $fromTime, $toDate, $toTime) {

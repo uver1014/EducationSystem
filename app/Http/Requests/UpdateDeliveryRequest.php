@@ -34,10 +34,10 @@ class UpdateDeliveryRequest extends FormRequest
     public function messages(): array
     {
         return [
-        'delivery_from_date.*.regex' => '開始日付は半角英数字で入力してください。',
-        'delivery_from_time.*.regex' => '開始時刻は半角英数字で入力してください。',
-        'delivery_to_date.*.regex'  => '終了日付は半角英数字で入力してください。',
-        'delivery_to_time.*.regex'   => '終了時刻は半角英数字で入力してください。',
+        'delivery_from_date.*.regex' => '開始日付は半角英数字で(YYYYMMDD)の形式で入力してください。',
+        'delivery_from_time.*.regex' => '開始時刻は半角英数字で(HHMM)の形式で入力してください。',
+        'delivery_to_date.*.regex'  => '終了日付は半角英数字で(YYYYMMDD)の形式で入力してください。',
+        'delivery_to_time.*.regex'   => '終了時刻は半角英数字で(HHMM)の形式で入力してください。',
         ];
     }
 }

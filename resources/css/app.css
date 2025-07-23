@@ -171,7 +171,9 @@ button.remove-date {
     border: solid 1px #202020;
     padding: 10px;
     text-align: center;
-    height: 300px;
+    min-height: 300px; 
+    height: auto;
+    overflow: visible;
   }
 
   .thumbnail {
